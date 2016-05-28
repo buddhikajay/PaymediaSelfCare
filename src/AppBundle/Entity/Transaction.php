@@ -29,9 +29,8 @@ class Transaction
     private $referenceNumber;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="account", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Account")
+     * @ORM\JoinColumn(name="account_id", referencedColumnName="id")
      */
     private $account;
 
