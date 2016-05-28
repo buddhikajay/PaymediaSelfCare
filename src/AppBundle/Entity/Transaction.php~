@@ -23,7 +23,8 @@ class Transaction
 
     /**
      * @var string
-     * @ORM\Column(name="reference_number", type="string", unique=true)
+     *
+     * @ORM\Column(name="referenceNumber", type="string", length=255)
      */
     private $referenceNumber;
 
@@ -36,7 +37,7 @@ class Transaction
     /**
      * @var string
      *
-     * @ORM\Column(name="branch", type="string", length=255, nullable=true)
+     * @ORM\Column(name="branch", type="string", length=255)
      */
     private $branch;
 
@@ -51,7 +52,7 @@ class Transaction
     /**
      * @var string
      *
-     * @ORM\Column(name="amountDescription", type="string", length=500, nullable=true)
+     * @ORM\Column(name="amountDescription", type="string", length=500)
      */
     private $amountDescription;
 
@@ -78,15 +79,9 @@ class Transaction
     /**
      * @var int
      *
-     * @ORM\Column(name="status", type="integer")
+     * @ORM\Column(name="state", type="integer")
      */
-    private $status;
-
-    public function __construct()
-    {
-        $this->createdAt = new \DateTime('now');
-        $this->referenceNumber = uniqid();
-    }
+    private $state;
 
 
     /**
@@ -269,50 +264,26 @@ class Transaction
     }
 
     /**
-     * Set status
+     * Set state
      *
-     * @param integer $status
+     * @param integer $state
      *
      * @return Transaction
      */
-    public function setStatus($status)
+    public function setState($state)
     {
-        $this->status = $status;
+        $this->state = $state;
 
         return $this;
     }
 
     /**
-     * Get status
+     * Get state
      *
      * @return int
      */
-    public function getStatus()
+    public function getState()
     {
-        return $this->status;
-    }
-
-    /**
-     * Set type
-     *
-     * @param string $type
-     *
-     * @return Transaction
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
+        return $this->state;
     }
 }

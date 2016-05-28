@@ -24,7 +24,7 @@ class Account
     /**
      * @var string
      *
-     * @ORM\Column(name="accountNumber", type="string", length=255, unique=false)
+     * @ORM\Column(name="accountNumber", type="string", length=255, unique=true)
      */
     private $accountNumber;
 
