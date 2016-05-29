@@ -1,0 +1,22 @@
+{
+  "name": "SelfCare",
+  "homepage": "https://github.com/buddhikajay/BankingSelfCare",
+  "authors": [
+    "buddhikajay <buddhika.12@cse.mrt.ac.lk>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/assets/vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
