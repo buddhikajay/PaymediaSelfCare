@@ -98,27 +98,36 @@ class DefaultController extends Controller
         $transaction = $em->findOneByReferenceNumber($refNo);//5749cd08d18aa
         $form = $this->createForm(TransactionType::class, $transaction);
 
-        $amountDescription = $transaction->getAmountDescription();
-        $amountDescriptionArray = json_decode($amountDescription, true);
+        $transactionType = $transaction->getType();
+
+        $logger->debug($transactionType);
+        if($transactionType == 'Cash Deposit'){
+            $amountDescription = $transaction->getAmountDescription();
+            $amountDescriptionArray = json_decode($amountDescription, true);
 
 //        $logger->debug($amountDescription);
 //        $logger->debug($amountDescriptionArray[5000]);
-
-        $hundreds = $amountDescription[2];
-
-
-        $notesArray = [10, 20, 50, 100, 500, 1000, 2000, 5000];
-        foreach($notesArray as $note){
-            $stringNoteKey = strval($note);
-            if(isset($amountDescriptionArray[$note])){
-                $form->get($stringNoteKey)->setData($amountDescriptionArray[$note]);
+            $notesArray = [10, 20, 50, 100, 500, 1000, 2000, 5000];
+            foreach($notesArray as $note){
+                $stringNoteKey = strval($note);
+                if(isset($amountDescriptionArray[$note])){
+                    $form->add($stringNoteKey, null, array('mapped' => false, 'data'=>$amountDescriptionArray[$note]));
+//                $form->get($stringNoteKey)->setData($amountDescriptionArray[$note]);
 //                $logger->debug($amountDescriptionArray[$note]);
+                }
+//            else{
+//                $form->get($stringNoteKey)->setData('0');
+//            }
             }
-            else{
-                $form->get($stringNoteKey)->setData('0');
+            //add source of funds description to the form if it is available
+            $sourceOfFunds = $transaction->getSourceOfFunds();
+            if(!is_null($sourceOfFunds)){
+                $form->add('sourceOfFunds');
             }
         }
-        $form->get('5000')->setData($amountDescriptionArray[5000]);
+
+        $form->add('save', SubmitType::class, array('label' => 'Proceed'));
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

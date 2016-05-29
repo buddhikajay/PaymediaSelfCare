@@ -22,16 +22,19 @@ class TransactionType extends AbstractType
             ->add('branch', null, array('data'=>'Dubai'))
             ->add('amount')
 
-            ->add('10', null, array('mapped' => false))
-            ->add('20', null, array('mapped' => false))
-            ->add('50', null, array('mapped' => false))
-            ->add('100', null, array('mapped' => false))
-            ->add('500', null, array('mapped' => false))
-            ->add('1000', null, array('mapped' => false))
-            ->add('2000', null, array('mapped' => false))
-            ->add('5000', null, array('mapped' => false))
+//            ->add('10', null, array('mapped' => false))
+//            ->add('20', null, array('mapped' => false))
+//            ->add('50', null, array('mapped' => false))
+//            ->add('100', null, array('mapped' => false))
+//            ->add('500', null, array('mapped' => false))
+//            ->add('1000', null, array('mapped' => false))
+//            ->add('2000', null, array('mapped' => false))
+//            ->add('5000', null, array('mapped' => false))
 
-            ->add('save', SubmitType::class, array('label' => 'Proceed'))
+//            ->add('sourceOfFunds')
+//            ->add('createdAt')
+
+//            ->add('save', SubmitType::class, array('label' => 'Proceed'))
         ;
     }
 }
