@@ -144,7 +144,8 @@ class DefaultController extends Controller
      * @Route("/transaction/getUpdates", name="transaction_get_updates")
      */
     public function getUpdates(){
-        $updates = array('refNo'=>'574aeda7a8cd2', 'branch'=>'Dubai', 'dateTime'=>new DateTime('now'));
+        $dateTime = new \DateTime();
+        $updates = array('refNo'=>'574aeda7a8cd2', 'branch'=>'Dubai', 'dateTime'=>$dateTime->getTimestamp());
         return new Response(json_encode($updates));
     }
 }
