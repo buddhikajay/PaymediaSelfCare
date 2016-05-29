@@ -94,10 +94,11 @@ class DefaultController extends Controller
         $refNo = $request->query->get('refNo');
         $transaction = $em->findOneByReferenceNumber($refNo);//5749cd08d18aa
         $form = $this->createForm(TransactionType::class, $transaction);
+//        form->get(''
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirectToRoute('transaction_scanner');
+            return $this->render('@App/completed.html.twig');
         }
 
         return $this->render('@App/review.html.twig', array(

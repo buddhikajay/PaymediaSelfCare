@@ -19,9 +19,10 @@ class TransactionType extends AbstractType
         $builder
             ->add('referenceNumber')
 //            ->add('account', DateType::class)
-            ->add('branch')
+            ->add('branch', null, array('data'=>'Dubai'))
             ->add('amount')
             ->add('100', null, array('mapped' => false))
+            ->add('save', SubmitType::class, array('label' => 'Proceed'))
         ;
     }
 }
