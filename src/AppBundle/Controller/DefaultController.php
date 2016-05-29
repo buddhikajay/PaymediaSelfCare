@@ -9,6 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\Type\TransactionType;
 
 class DefaultController extends Controller
 {
@@ -53,6 +57,8 @@ class DefaultController extends Controller
         $em->persist($transaction);
 
         $em->flush();
+
+//        TODO this try catch can be used to avoid duplicates for the unique values
 //
 //        try {
 //            $em->persist($data);
@@ -62,5 +68,40 @@ class DefaultController extends Controller
 //        }
 
         return new Response(json_encode(array('status'=>200, 'refNo'=>$transaction->getReferenceNumber())));
+    }
+
+    /**
+     * @Route("/transaction/scanner", name="transaction_scanner")
+     */
+    public function getCodeScanner(Request $request){
+        $logger = $this->get('logger');
+        $refNo= $request->query->get('refNo', null);
+        $logger->debug($request->query->get('refNo', $refNo));
+        if(is_null($refNo)){
+            return $this->render('@App/scanner.html.twig');
+        }
+        else{
+            return $this->redirect($this->generateUrl('transaction_get', array('refNo'=>$refNo)));
+        }
+    }
+
+    /**
+     * @Route("/transaction/get", name="transaction_get")
+     */
+    public function getTransaction(Request $request){
+
+        $em = $this->getDoctrine()->getRepository('AppBundle:Transaction');
+        $refNo = $request->query->get('refNo');
+        $transaction = $em->findOneByReferenceNumber($refNo);//5749cd08d18aa
+        $form = $this->createForm(TransactionType::class, $transaction);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute('transaction_scanner');
+        }
+
+        return $this->render('@App/review.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 }
