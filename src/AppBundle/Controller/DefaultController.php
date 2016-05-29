@@ -48,11 +48,13 @@ class DefaultController extends Controller
         $transaction = new Transaction();
 //        TODO auto generate | unique
 //        $transaction->setReferenceNumber(1);
-        $transaction->setType($decodedContent->Type);
+        $transaction->setAccount($account);
+        $transaction->setBranch("Dubai");
         $transaction->setAmount((float)$decodedContent->Amount);
         $transaction->setAmountDescription($decodedContent->AmountDescription);
+        $transaction->setSourceOfFunds($decodedContent->SourceOfFunds);
+        $transaction->setType($decodedContent->Type);
         $transaction->setStatus($decodedContent->Status);
-        $transaction->setAccount($account);
 
         $em->persist($transaction);
 
