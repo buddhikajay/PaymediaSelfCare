@@ -35,7 +35,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $content = $request->getContent();
 //        $logger->debug("Request JSON");
-//        $logger->debug($content);
+        $logger->debug($content);
         $decodedContent = json_decode($content);
         $logger->debug($decodedContent->Type);
 
@@ -94,7 +94,11 @@ class DefaultController extends Controller
         $refNo = $request->query->get('refNo');
         $transaction = $em->findOneByReferenceNumber($refNo);//5749cd08d18aa
         $form = $this->createForm(TransactionType::class, $transaction);
-//        form->get(''
+
+        $amountDescription = $transaction->getAmountDescription();
+        $amountDescriptionArray = json_decode($amountDescription);
+
+        $form->get('100')->setData('199');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -57,6 +57,12 @@ class Transaction
 
     /**
      * @var string
+     * @ORM\Column(name="source_of_funds", type="string", length=500, nullable=true)
+     */
+    private $sourceOfFunds;
+
+    /**
+     * @var string
      * @ORM\Column(name="type", type="string", length=50)
      */
     private $type;
@@ -314,5 +320,29 @@ class Transaction
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set sourceOfFunds
+     *
+     * @param string $sourceOfFunds
+     *
+     * @return Transaction
+     */
+    public function setSourceOfFunds($sourceOfFunds)
+    {
+        $this->sourceOfFunds = $sourceOfFunds;
+
+        return $this;
+    }
+
+    /**
+     * Get sourceOfFunds
+     *
+     * @return string
+     */
+    public function getSourceOfFunds()
+    {
+        return $this->sourceOfFunds;
     }
 }
