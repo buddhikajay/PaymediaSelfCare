@@ -1,16 +1,77 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html >
 
-{% block body %}
+<head >
+    <meta charset="UTF-8" />
+    <title>{% block title %}Sampath Self Care!{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/app/css/app.css') }}">
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+
+
+</head>
+<body style="background-image: url('/bundles/app/images/bg.jpg');background-size: auto">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.js"></script>
+    <script src="/assets/vendor/angular-qr-scanner/qr-scanner.js"></script>
+    <script src="/assets/vendor/angular-qr-scanner/src/jsqrcode-combined.min.js"></script>
+    <script src="{{ asset('assets/vendor/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <h3 style="margin: 0;">Slipless Banking</h3>
+
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="row" ng-app="App">
+
+        <div class="col-lg-12 text-center" >
+            <h2 style="color:#00b377" >Scan QR code</h2>
+        </div>
+        <div  ng-controller="qrCrtl" class="col-lg-12 text-center" >
+                <qr-scanner width="400" height="300" ng-success="onSuccess(data)" ng-error="onError(error)" />
+
+                <script>
+
+                    var App = angular.module('App', ['qrScanner']);
+
+                    App.controller('qrCrtl', ['$scope', function($scope) {
+                        $scope.onSuccess = function(data) {
+                            $("#ref").val(data);
+                            console.log(data);
+
+                        };
+                        $scope.onError = function(error) {
+                            console.log(error);
+                        };
+                        $scope.onVideoError = function(error) {
+                            console.log(error);
+                        };
+                    }]);
+
+                </script>
+        </div>
+    </div>
+
     <form method="get">
+
         <div class="row">
             <div class="col-lg-4 col-lg-offset-4">
                 <div class="input-group">
-                    <input name="refNo" type="text" class="form-control" />
+                    <input id="ref" name="refNo" type="text" class="form-control" />
             <span class="input-group-btn">
-                <button class="btn btn-default" type="submit">Go!</button>
+                <button class="btn btn-default btn-success" type="submit">Go!</button>
             </span>
                 </div><!-- /input-group -->
             </div><!-- /.col-lg-4 -->
         </div><!-- /.row -->
     </form>
-{% endblock %}
+    </body>
+</html>
