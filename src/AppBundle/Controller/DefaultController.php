@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\Type\TransactionType;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 class DefaultController extends Controller
@@ -94,9 +95,10 @@ class DefaultController extends Controller
     public function getTransaction(Request $request){
 
         $logger = $this->get('logger');
-        $em = $this->getDoctrine()->getRepository('AppBundle:Transaction');
+//        $em = $this->getDoctrine()->getRepository('AppBundle:Transaction');
+        $em = $this->getDoctrine()->getManager();
         $refNo = $request->query->get('refNo');
-        $transaction = $em->findOneByReferenceNumber($refNo);//5749cd08d18aa
+        $transaction = $em->getRepository('AppBundle:Transaction')->findOneByReferenceNumber($refNo);//5749cd08d18aa
         $form = $this->createForm(TransactionType::class, $transaction);
 
         $transactionType = $transaction->getType();
@@ -132,6 +134,10 @@ class DefaultController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $transaction->setStatus(1);
+            $transaction->setCompletedAt(new \DateTime('now'));
+//            $em->persist($transaction);
+            $em->flush();
             return $this->render('@App/completed.html.twig');
         }
 
@@ -144,8 +150,28 @@ class DefaultController extends Controller
      * @Route("/transaction/getUpdates", name="transaction_get_updates")
      */
     public function getUpdates(){
-        $dateTime = new \DateTime();
-        $updates = array('refNo'=>'574aeda7a8cd2', 'branch'=>'Dubai', 'dateTime'=>$dateTime->getTimestamp());
+        $logger = $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Transaction');
+        $query = $repository->createQueryBuilder('t')
+            ->where('t.status = :status')
+            ->setParameter('status', '1')
+            ->getQuery();
+        $updatedTransactions = $query->getResult();
+
+        $updates = array();
+        foreach($updatedTransactions as $transaction){
+            $dateTime = new \DateTime();
+//            $logger->debug($dateTime);
+            $tempUpdate = array(
+                'refNo'=>$transaction->getReferenceNumber(),
+                'branch'=>$transaction->getBranch(),
+                'dateTime'=>$dateTime->getTimestamp());
+            array_push($updates, $tempUpdate);
+        }
+
+//        $dateTime = new \DateTime();
+//        $updates = array('refNo'=>'574aeda7a8cd2', 'branch'=>'Dubai', 'dateTime'=>$dateTime->getTimestamp());
         return new Response(json_encode($updates));
     }
 }
