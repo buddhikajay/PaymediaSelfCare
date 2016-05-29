@@ -35,7 +35,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $content = $request->getContent();
 //        $logger->debug("Request JSON");
-//        $logger->debug($content);
+        $logger->debug($content);
         $decodedContent = json_decode($content);
         $logger->debug($decodedContent->Type);
 
@@ -48,11 +48,13 @@ class DefaultController extends Controller
         $transaction = new Transaction();
 //        TODO auto generate | unique
 //        $transaction->setReferenceNumber(1);
-        $transaction->setType($decodedContent->Type);
+        $transaction->setAccount($account);
+        $transaction->setBranch("Dubai");
         $transaction->setAmount((float)$decodedContent->Amount);
         $transaction->setAmountDescription($decodedContent->AmountDescription);
+        $transaction->setSourceOfFunds($decodedContent->SourceOfFunds);
+        $transaction->setType($decodedContent->Type);
         $transaction->setStatus($decodedContent->Status);
-        $transaction->setAccount($account);
 
         $em->persist($transaction);
 
@@ -90,11 +92,33 @@ class DefaultController extends Controller
      */
     public function getTransaction(Request $request){
 
+        $logger = $this->get('logger');
         $em = $this->getDoctrine()->getRepository('AppBundle:Transaction');
         $refNo = $request->query->get('refNo');
         $transaction = $em->findOneByReferenceNumber($refNo);//5749cd08d18aa
         $form = $this->createForm(TransactionType::class, $transaction);
-//        form->get(''
+
+        $amountDescription = $transaction->getAmountDescription();
+        $amountDescriptionArray = json_decode($amountDescription, true);
+
+//        $logger->debug($amountDescription);
+//        $logger->debug($amountDescriptionArray[5000]);
+
+        $hundreds = $amountDescription[2];
+
+
+        $notesArray = [10, 20, 50, 100, 500, 1000, 2000, 5000];
+        foreach($notesArray as $note){
+            $stringNoteKey = strval($note);
+            if(isset($amountDescriptionArray[$note])){
+                $form->get($stringNoteKey)->setData($amountDescriptionArray[$note]);
+//                $logger->debug($amountDescriptionArray[$note]);
+            }
+            else{
+                $form->get($stringNoteKey)->setData('0');
+            }
+        }
+        $form->get('5000')->setData($amountDescriptionArray[5000]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
