@@ -5,12 +5,31 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.js"></script>
     <script src="/assets/vendor/angular-qr-scanner/qr-scanner.js"></script>
     <script src="/assets/vendor/angular-qr-scanner/src/jsqrcode-combined.min.js"></script>
-
-    <div class="row" ng-app="App">
-
-        <div class="col-lg-12 text-center" >
-            <h2 style="color:#00b377" >Scan QR code</h2>
+    <div class="row" style="padding-top: 20vh">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-3  text-center" style="padding-right: 0" >
+            <div style="color:#ffffff;height: 60px;font-size: x-large;" class="label-info" ><div style="vertical-align: middle;padding-top:13px">Reference Number</div></div>
         </div>
+        <div class="col-lg-8" style="padding-left: 0">
+            <form method="get">
+
+                <div class="row">
+                    <div class="col-lg-10">
+                        <div class="input-group">
+                            <input id="ref" name="refNo" type="text" style="height:60px;font-size: xx-large" class="form-control" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default btn-success" style="height:60px" type="submit">GO !</button>
+                            </span>
+                        </div><!-- /input-group -->
+                    </div><!-- /.col-lg-4 -->
+                </div><!-- /.row -->
+            </form>
+        </div>
+    </div>
+    <div class="row" style="padding-top: 8vh"><div class="col-lg-12 h1 text-center" style="color: #5cb85c">Scanning QR code...</div></div>
+    <div class="row"  ng-app="App">
+
+
         <div  ng-controller="qrCrtl" class="col-lg-12 text-center" >
                 <qr-scanner width="400" height="300" ng-success="onSuccess(data)" ng-error="onError(error)" />
 
@@ -34,19 +53,8 @@
 
                 </script>
         </div>
+
     </div>
 
-    <form method="get">
 
-        <div class="row">
-            <div class="col-lg-4 col-lg-offset-4">
-                <div class="input-group">
-                    <input id="ref" name="refNo" type="text" class="form-control" />
-            <span class="input-group-btn">
-                <button class="btn btn-default btn-success" type="submit">Go!</button>
-            </span>
-                </div><!-- /input-group -->
-            </div><!-- /.col-lg-4 -->
-        </div><!-- /.row -->
-    </form>
 {% endblock %}
