@@ -166,8 +166,9 @@ class DefaultController extends Controller
             $tempUpdate = array(
                 'refNo'=>$transaction->getReferenceNumber(),
                 'branch'=>$transaction->getBranch(),
-                'dateTime'=>$dateTime->getTimestamp());
+                'dateTime'=>strval($dateTime->getTimestamp()));
             array_push($updates, $tempUpdate);
+            $transaction->setStatus(2);
         }
 
 //        $dateTime = new \DateTime();

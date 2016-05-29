@@ -8,6 +8,7 @@
 
 namespace AppBundle\Form\Type;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,8 +19,13 @@ class TransactionType extends AbstractType
     {
         $builder
             ->add('referenceNumber')
-//            ->add('account', DateType::class)
-            ->add('branch', null, array('data'=>'Dubai'))
+//            ->add('account', EntityType::class, array(
+//                'class'=>'AppBundle:Account',
+//                'choice_label' => 'id'
+//            ))
+            ->add('account', AccountType::class)
+            ->add('branch')
+            ->add('type')
             ->add('amount')
 
 //            ->add('10', null, array('mapped' => false))
