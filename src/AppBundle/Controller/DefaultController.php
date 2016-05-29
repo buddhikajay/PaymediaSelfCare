@@ -92,15 +92,33 @@ class DefaultController extends Controller
      */
     public function getTransaction(Request $request){
 
+        $logger = $this->get('logger');
         $em = $this->getDoctrine()->getRepository('AppBundle:Transaction');
         $refNo = $request->query->get('refNo');
         $transaction = $em->findOneByReferenceNumber($refNo);//5749cd08d18aa
         $form = $this->createForm(TransactionType::class, $transaction);
 
         $amountDescription = $transaction->getAmountDescription();
-        $amountDescriptionArray = json_decode($amountDescription);
+        $amountDescriptionArray = json_decode($amountDescription, true);
 
-        $form->get('100')->setData('199');
+//        $logger->debug($amountDescription);
+//        $logger->debug($amountDescriptionArray[5000]);
+
+        $hundreds = $amountDescription[2];
+
+
+        $notesArray = [10, 20, 50, 100, 500, 1000, 2000, 5000];
+        foreach($notesArray as $note){
+            $stringNoteKey = strval($note);
+            if(isset($amountDescriptionArray[$note])){
+                $form->get($stringNoteKey)->setData($amountDescriptionArray[$note]);
+//                $logger->debug($amountDescriptionArray[$note]);
+            }
+            else{
+                $form->get($stringNoteKey)->setData('0');
+            }
+        }
+        $form->get('5000')->setData($amountDescriptionArray[5000]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
