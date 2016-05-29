@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\Type\TransactionType;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class DefaultController extends Controller
 {
@@ -137,5 +138,13 @@ class DefaultController extends Controller
         return $this->render('@App/review.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * @Route("/transaction/getUpdates", name="transaction_get_updates")
+     */
+    public function getUpdates(){
+        $updates = array('refNo'=>'574aeda7a8cd2', 'branch'=>'Dubai', 'dateTime'=>new DateTime('now'));
+        return new Response(json_encode($updates));
     }
 }
