@@ -48,6 +48,28 @@ class Account
      * @ORM\Column(name="phoneNumber", type="string", length=25)
      */
     private $phoneNumber;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="accountType", type="string", length=25)
+     */
+    private $accountType;
+
+    /**
+     * @return string
+     */
+    public function getAccountType()
+    {
+        return $this->accountType;
+    }
+
+    /**
+     * @param string $accountType
+     */
+    public function setAccountType($accountType)
+    {
+        $this->accountType = $accountType;
+    }
 
     /**
      * @return string
