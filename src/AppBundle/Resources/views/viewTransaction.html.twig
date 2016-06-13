@@ -33,7 +33,7 @@
                     <div class="user_detail-label label-info" ><div class="transaction-label-text">NIC/Passport</div></div>
 
                     <div class="input-group" style="width:100%">
-                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="4548485484V" />
+                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="910000000V" />
 
                     </div><!-- /input-group -->
 
@@ -42,7 +42,7 @@
                     <div class="user_detail-label label-info" ><div class="transaction-label-text">Phone number</div></div>
 
                     <div class="input-group" style="width:100%">
-                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="0774518221" />
+                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="0712345678" />
 
                     </div><!-- /input-group -->
 
@@ -51,7 +51,7 @@
                     <div class="user_detail-label label-info" ><div class="transaction-label-text">Device ID (IMEI)</div></div>
 
                     <div class="input-group" style="width:100%">
-                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="48817452141" />
+                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="352245852478562" />
 
                     </div><!-- /input-group -->
 
@@ -66,10 +66,11 @@
 
                 </div>
                 <div style="margin-top: 5px">
-                    <div class="user_detail-label label-info" ><div style="vertical-align: middle;padding-top:5px">Transaction Created Location</div></div>
+                    <div class="user_detail-label label-info" ><div style="vertical-align: middle;padding-top:5px">GPS Location</div></div>
 
                     <div class="input-group" style="width:100%">
-                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="Bambalapitiya" />
+                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="
+6.91723742,79.85420488" />
 
                     </div><!-- /input-group -->
 
@@ -176,7 +177,7 @@
                                 {% endif %}
                             </td>
                             <td style="padding: 0">
-                                {{ note*NotesCount[note] }}
+                                {{ note*NotesCount[note]|number_format(2, '.', ',')  }}
                             </td>
 
                         </tr>
