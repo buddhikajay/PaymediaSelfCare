@@ -30,6 +30,15 @@
 
                 </div>
                 <div style="margin-top: 5px">
+                    <div class="user_detail-label label-info" ><div class="transaction-label-text">NIC/Passport</div></div>
+
+                    <div class="input-group" style="width:100%">
+                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="4548485484V" />
+
+                    </div><!-- /input-group -->
+
+                </div>
+                <div style="margin-top: 5px">
                     <div class="user_detail-label label-info" ><div class="transaction-label-text">Phone number</div></div>
 
                     <div class="input-group" style="width:100%">
@@ -69,9 +78,13 @@
             </div>
         </div>
         <div class="col-md-8  well" style="margin-left: 50px;padding-top: 3px">
+
             <div class="row" style="padding-top: 1px" >
                 <div class="col-lg-12  text-center" style="padding-right: 0; background-color: black" >
-                    <div class="h3" style="color: white">CASH WITHDRAW</div>
+                    <div class="h3" style="color: white">
+                        {{Transaction.type|upper}}
+
+                    </div>
                 </div>
             </div>
 
@@ -162,7 +175,9 @@
                                     {{ NotesCount[note] }}
                                 {% endif %}
                             </td>
-                            <td></td>
+                            <td style="padding: 0">
+                                {{ note*NotesCount[note] }}
+                            </td>
 
                         </tr>
                            {% set i= i+1 %}
@@ -206,11 +221,29 @@
                 </div>
             </div>
             <div class="row" style="padding-top: 2vh;" >
-                <div class="col-lg-9"></div>
-                <div class="col-lg-2 "><button class="btn btn-danger right">PROCEED</button></div>
+                <div class="col-lg-7 col-lg-offset-2"><div id="successText" class="h3 text-bold text-success"></div></div>
+                <div class="col-lg-2 "><button class="btn btn-danger right" onclick="proceed()">PROCEED</button></div>
             </div>
+
             </div>
+
 
         </div>
     </div>
+    <script>
+        function proceed(){
+            $data = {"refNo": "{{ Transaction.referenceNumber }}", "branch": $("#branch").val() };
+            $.ajax({
+                        method: "POST",
+                        url: "/transaction/proceed",
+                        dataType: 'json',
+                        data: JSON.stringify( $data )
+                    })
+                    .done(function( msg ) {
+                       // alert( "Data Saved: " + msg );
+                        $("#successText").html("TRANSACTION SUCCESSFUL!");
+                        window.location.href = '/transaction/scanner';
+                    });
+        }
+    </script>
 {% endblock %}

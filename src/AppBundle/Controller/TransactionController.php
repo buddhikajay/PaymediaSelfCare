@@ -31,7 +31,7 @@ class TransactionController extends Controller
         $refNo = $request->query->get('refNo');
         $transaction = $em->getRepository('AppBundle:Transaction')->findOneByReferenceNumber($refNo);
         $transactionType = $transaction->getType();
-        $notesCount =array();
+        $notesCount =array(5000=>0,2000=>0,1000=>0,500=>0,100=>0,50=>0,20=>0,10=>0,1=>0);
         $notesArray = [5000, 2000, 1000, 500, 100, 50, 20, 10,1];
         if($transactionType == 'Cash Deposit') {
             $amountDescription = $transaction->getAmountDescription();
@@ -52,5 +52,31 @@ class TransactionController extends Controller
 
         return $this->render('@App/viewTransaction.html.twig', array("Transaction"=>$transaction
         ,"NotesCount"=>$notesCount,"Notes"=>$notesArray));
+    }
+
+    /**
+     * @Route("/transaction/proceed", name="transaction_proceed")
+     */
+    public function proceedTransaction(Request $request)
+    {
+        $logger = $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
+        $content = $request->getContent();
+        $logger->debug("Content: ".$content);
+
+        $decodedContent = json_decode($content);
+
+
+        $refNo = $decodedContent->refNo;
+       // $refNo = $request->query->get('refNo');
+
+        $branch =$decodedContent->branch;
+        $transaction = $em->getRepository('AppBundle:Transaction')->findOneByReferenceNumber($refNo);
+        $transaction->setStatus(1);
+        $transaction->setBranch($branch);
+        $transaction->setCompletedAt(new \DateTime('now'));
+//            $em->persist($transaction);
+        $em->flush();
+        return new Response(json_encode(array("code"=>200)));
     }
 }

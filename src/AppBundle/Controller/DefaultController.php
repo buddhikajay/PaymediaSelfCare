@@ -169,6 +169,7 @@ class DefaultController extends Controller
                 'dateTime'=>strval($dateTime->getTimestamp()));
             array_push($updates, $tempUpdate);
             $transaction->setStatus(2);
+            $em->flush();
         }
 
 //        $dateTime = new \DateTime();
