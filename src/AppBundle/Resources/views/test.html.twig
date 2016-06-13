@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {{ parent() }}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.js"></script>
+    <script src="/assets/vendor/angular-qr-scanner/qr-scanner.js"></script>
+    <script src="/assets/vendor/angular-qr-scanner/src/jsqrcode-combined.min.js"></script>
+    <div class="row" style="padding-top: 10vh;margin-left: 158px;padding-right: 351px;padding-left: 200px" >
+        <div class="col-lg-12  text-center" style="padding-right: 0; background-color: black" >
+            <div class="h2" style="color: white">Cash Withdraw</div>
+        </div>
+    </div>
+    <div style="padding-left: 140px">
+        <div class="row" style="padding-top: 3vh;margin-left: 200px" >
+            <div class="col-lg-3  text-center" style="padding-right: 0; " >
+                <div style="color:#ffffff;height: 30px;font-size: large;background-color: #001F3F" class="label-info" ><div style="vertical-align: middle;padding-top:5px">Reference Number</div></div>
+            </div>
+            <div class="col-lg-9" style="padding-left: 0">
+                <div class="input-group" style="width:inherit;">
+                    <input id="ref" name="refNo" type="text" style="width:inherit;height:30px;font-size: large" class="form-control" value="574d4f72162df" />
+
+                </div><!-- /input-group -->
+            </div>
+        </div>
+        <div class="row" style="padding-top: 2vh;margin-left: 200px" >
+            <div class="col-lg-3  text-center" style="padding-right: 0; " >
+                <div style="color:#ffffff;height: 30px;font-size: large;background-color: #001F3F" class="label-info" ><div style="vertical-align: middle;padding-top:5px">Amount</div></div>
+            </div>
+            <div class="col-lg-9" style="padding-left: 0">
+                <div class="input-group" style="width:inherit;">
+                    <input id="ref" name="refNo" type="text" style="width:inherit;height:30px;font-size: large" class="form-control" value="45000.00 LKR"/>
+
+                </div><!-- /input-group -->
+            </div>
+        </div>
+        <div class="row" style="padding-top: 2vh;margin-left: 200px" >
+            <div class="col-lg-3  text-center" style="padding-right: 0; " >
+                <div style="color:#ffffff;height: 30px;font-size: large;background-color: #001F3F" class="label-info" ><div style="vertical-align: middle;padding-top:5px">Account Number</div></div>
+            </div>
+            <div class="col-lg-9" style="padding-left: 0">
+                <div class="input-group" style="width:inherit;">
+                    <input id="ref" name="refNo" type="text" style="width:inherit;height:30px;font-size: large" class="form-control" value="8974565"/>
+
+                </div><!-- /input-group -->
+            </div>
+        </div>
+        <div class="row" style="padding-top: 2vh;margin-left: 200px" >
+            <div class="col-lg-3  text-center" style="padding-right: 0; " >
+                <div style="color:#ffffff;height: 30px;font-size: large;background-color: #001F3F" class="label-info" ><div style="vertical-align: middle;padding-top:5px">Account Holder's Name</div></div>
+            </div>
+            <div class="col-lg-9" style="padding-left: 0">
+                <div class="input-group" style="width:inherit;">
+                    <input id="ref" name="refNo" type="text" style="width:inherit;height:30px;font-size: large" class="form-control" value="K A D B PRIYADARSHANA"/>
+
+                </div><!-- /input-group -->
+            </div>
+        </div>
+
+        <div class="row" style="padding-top: 2vh;margin-left: 200px" >
+            <div class="col-lg-3  text-center" style="padding-right: 0; " >
+                <div style="color:#ffffff;height: 30px;font-size: large;background-color: #001F3F" class="label-info" ><div style="vertical-align: middle;padding-top:5px">NIC/Passport Number</div></div>
+            </div>
+            <div class="col-lg-9" style="padding-left: 0">
+                <div class="input-group" style="width:inherit;">
+                    <input id="ref" name="refNo" type="text" style="width:inherit;height:30px;font-size: large" class="form-control" value="872521254v"/>
+
+                </div><!-- /input-group -->
+            </div>
+        </div>
+        <div class="row" style="padding-top: 2vh;margin-left: 200px" >
+            <div class="col-lg-3  text-center" style="padding-right: 0; " >
+                <div style="color:#ffffff;height: 30px;font-size: large;background-color: #001F3F" class="label-info" ><div style="vertical-align: middle;padding-top:5px">Branch</div></div>
+            </div>
+            <div class="col-lg-9" style="padding-left: 0">
+                <div class="input-group" style="width:inherit;">
+                    <input id="ref" name="refNo" type="text" style="width:inherit;height:30px;font-size: large" class="form-control" value="Dubai" />
+
+                </div><!-- /input-group -->
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding-top: 4vh;margin-left: 210px" >
+        <div class="col-lg-7"></div>
+        <div class="col-lg-2 "><button class="btn btn-success right">PROCEED</button></div>
+    </div>
+{% endblock %}
