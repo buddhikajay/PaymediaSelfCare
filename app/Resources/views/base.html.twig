@@ -13,8 +13,8 @@
 
 
     </head>
-    <body  style="background-color: white;background-size: auto">
-    <div style="background-color: rgba(245,252,255,1);height: 100vh" >
+    <body  style="background-color: white;background-size: auto;overflow-x: hidden">
+    <div style="background-color: rgba(254,254,255,1);height: 100vh" >
         {% block body %}
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
@@ -34,8 +34,8 @@
                         </a>
                     </div>
 
-                    <div class="navbar-btn navbar-right"><button class="btn btn-danger btn-sm" style="margin-right: 20px">LOGOUT</button></div>
-                    <div style="padding-right: 20px" class="navbar-text navbar-right"><div>Logged In as: testUser</div></div>
+                    <div class="navbar-btn navbar-right"><button class="btn btn-default btn-sm" style="margin-right: 20px">LOGOUT</button></div>
+                    <div style="padding-right: 20px;color: white" class="navbar-text navbar-right"><div>Logged In as: Teller1</div></div>
                 </div>
             </nav>
         {% endblock %}

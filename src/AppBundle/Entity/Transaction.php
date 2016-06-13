@@ -91,7 +91,7 @@ class Transaction
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
-        $this->referenceNumber = uniqid();
+        $this->referenceNumber = substr(rand(),0,6);  // creates a 6 digit token
     }
 
 

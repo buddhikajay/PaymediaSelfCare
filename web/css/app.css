@@ -1,6 +1,6 @@
 .navbar-default {
     background-color: #ff4400;
-    border-color: #ffffff;
+    border-color: #000000;
 }
 .navbar-default .navbar-brand {
     color: #52bed9;
@@ -66,4 +66,24 @@
         color: #c5bbff;
         background-color: #101420;
     }
+}
+
+.transaction-label{
+    padding-left: 10px;color:#ffffff;height: 26px;font-size: 11pt;background-color: #001F3F;
+}
+.transaction-label-text{
+    vertical-align: middle;padding-top:2px
+}
+.transaction-input{
+    width:inherit;height:26px;font-size: medium;pointer-events:none;
+}
+
+.user_detail-label{
+    padding-left: 10px; color:#ffffff;height: 30px;font-size: small;background-color: #352F5F
+}
+.user_detail-label-text{
+    vertical-align: middle;padding-top:5px
+}
+.user_detail-input{
+    width:inherit;height:30px;font-size: small;pointer-events:none;
 }
