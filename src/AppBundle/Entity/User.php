@@ -22,6 +22,32 @@ class User
      */
     private $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="userId", type="string", length=25, unique=true)
+     */
+    private $userId;
+
+    /**
+     * @return string
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * @param string $userId
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+
+   
+
+  
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Account")

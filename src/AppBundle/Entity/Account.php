@@ -24,7 +24,7 @@ class Account
     /**
      * @var string
      *
-     * @ORM\Column(name="accountNumber", type="string", length=255, unique=false)
+     * @ORM\Column(name="accountNumber", type="string", length=25, unique=false)
      */
     private $accountNumber;
 
@@ -34,6 +34,74 @@ class Account
      * @ORM\Column(name="accountHolderName", type="string", length=255)
      */
     private $accountHolderName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nic", type="string", length=20)
+     */
+    private $nic;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phoneNumber", type="string", length=25)
+     */
+    private $phoneNumber;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="accountType", type="string", length=25)
+     */
+    private $accountType;
+
+    /**
+     * @return string
+     */
+    public function getAccountType()
+    {
+        return $this->accountType;
+    }
+
+    /**
+     * @param string $accountType
+     */
+    public function setAccountType($accountType)
+    {
+        $this->accountType = $accountType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @param string $phoneNumber
+     */
+    public function setPhoneNumber($phoneNumber)
+    {
+        $this->phoneNumber = $phoneNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNic()
+    {
+        return $this->nic;
+    }
+
+    /**
+     * @param string $nic
+     */
+    public function setNic($nic)
+    {
+        $this->nic = $nic;
+    }
 
 
     /**
