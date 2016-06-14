@@ -119,6 +119,7 @@ class User
         $this->ownAccounts = new ArrayCollection();
         $this->thirdPartyAccounts = new ArrayCollection();
         $this->transactions = new ArrayCollection();
+        $this->enabled=false;
     }
 
 
