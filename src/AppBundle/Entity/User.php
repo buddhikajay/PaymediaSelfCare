@@ -104,14 +104,6 @@ class User
      */
     private $ownAccounts;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Account")
-     * @ORM\JoinTable(name="users_thirdPartyAccounts",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="account_id", referencedColumnName="id", unique=true)}
-     *      )
-     */
-    private $thirdPartyAccounts;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Transaction")
@@ -204,40 +196,7 @@ class User
         $this->ownAccounts->removeElement($ownAccount);
     }
 
-    /**
-     * Add thirdPartyAccount
-     *
-     * @param \AppBundle\Entity\Account $thirdPartyAccount
-     *
-     * @return User
-     */
-    public function addThirdPartyAccount(\AppBundle\Entity\Account $thirdPartyAccount)
-    {
-        $this->thirdPartyAccounts[] = $thirdPartyAccount;
-
-        return $this;
-    }
-
-    /**
-     * Remove thirdPartyAccount
-     *
-     * @param \AppBundle\Entity\Account $thirdPartyAccount
-     */
-    public function removeThirdPartyAccount(\AppBundle\Entity\Account $thirdPartyAccount)
-    {
-        $this->thirdPartyAccounts->removeElement($thirdPartyAccount);
-    }
-
-    /**
-     * Get thirdPartyAccounts
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getThirdPartyAccounts()
-    {
-        return $this->thirdPartyAccounts;
-    }
-
+    
     /**
      * Add transaction
      *

@@ -56,6 +56,8 @@ class UserController extends Controller
             }
             $userId= uniqid();
             $user->setUserId($userId);
+           $user->setDeviceId($IMEI);
+            $user->setPhoneNumber($phoneNumber);
             $em->persist($user);
             $em->flush();
             $response =$userId ;

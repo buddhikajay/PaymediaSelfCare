@@ -71,17 +71,6 @@ easy_admin:
             brand_color: '#E55300'
     site_name: 'Sampath Admin'
     entities:
-        User:
-          class: AppBundle\Entity\User
-          label: 'Users'
-          list:
-            title: 'Users'
-            fields:
-              - userId
-              - ownAccounts
-              - thirdPartyAccounts
-          edit:
-            title:  'Edit customer'
-
-#        - AppBundle\Entity\Account
-#        - AppBundle\Entity\Transaction
+        - AppBundle\Entity\User
+        - AppBundle\Entity\Account
+        - AppBundle\Entity\Transaction
