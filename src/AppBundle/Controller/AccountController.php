@@ -39,11 +39,12 @@ class AccountController extends Controller
             ->setParameter('accountNumber', $accountNumber)
             ->getQuery();
         $accounts = $query->getResult();
+      
         if($accounts){
-            return new Response(json_encode(array("code"=>200,"name"=>$accounts[0]->accountHolderName)));
+            return new Response(json_encode(array("code"=>200,"name"=>$accounts[0]->getAccountHolderName())));
         }
         else{
-            return new Response(json_encode(array("code"=>400)));
+            return new Response(json_encode(array("code"=>400,"name"=>null)));
         }
     }
 }
