@@ -33,6 +33,67 @@ class User
      *
      * @ORM\Column(name="phoneNumber", type="string", length=25)
      */
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=25)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nic", type="string", length=25)
+     */
+    private $nic;
+
+    /**
+     * @return string
+     */
+    public function getNic()
+    {
+        return $this->nic;
+    }
+
+    /**
+     * @param string $nic
+     */
+    public function setNic($nic)
+    {
+        $this->nic = $nic;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getThirdPartyAccounts()
+    {
+        return $this->thirdPartyAccounts;
+    }
+
+    /**
+     * @param ArrayCollection $thirdPartyAccounts
+     */
+    public function setThirdPartyAccounts($thirdPartyAccounts)
+    {
+        $this->thirdPartyAccounts = $thirdPartyAccounts;
+    }
     private $phoneNumber;
     /**
      * @var string

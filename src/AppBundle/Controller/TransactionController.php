@@ -30,6 +30,7 @@ class TransactionController extends Controller
         $em = $this->getDoctrine()->getManager();
         $refNo = $request->query->get('refNo');
         $transaction = $em->getRepository('AppBundle:Transaction')->findOneByReferenceNumber($refNo);
+        $user = $em->getRepository('AppBundle:User')[0];
         $transactionType = $transaction->getType();
         $notesCount =array(5000=>0,2000=>0,1000=>0,500=>0,100=>0,50=>0,20=>0,10=>0,1=>0);
         $notesArray = [5000, 2000, 1000, 500, 100, 50, 20, 10,1];
@@ -51,7 +52,7 @@ class TransactionController extends Controller
         }
 
         return $this->render('@App/viewTransaction.html.twig', array("Transaction"=>$transaction
-        ,"NotesCount"=>$notesCount,"Notes"=>$notesArray));
+        ,"NotesCount"=>$notesCount,"Notes"=>$notesArray,"User"=>$user));
     }
 
     /**

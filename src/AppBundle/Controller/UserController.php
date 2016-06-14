@@ -55,6 +55,8 @@ class UserController extends Controller
                 $user->addOwnAccount($account);
             }
             $userId= uniqid();
+            $user->setName($accounts[0]->getAccountHolderName());
+           $user->setNic($accounts[0]->getNic());
             $user->setUserId($userId);
             $user->setDeviceId($IMEI);
             $user->setPhoneNumber($phoneNumber);
