@@ -51,7 +51,7 @@ class DefaultController extends Controller
 //        TODO auto generate | unique
 //        $transaction->setReferenceNumber(1);
         $transaction->setAccount($account);
-        $transaction->setBranch("Dubai");
+        $transaction->setBranch("Bambalapitiya");
         $transaction->setAmount((float)$decodedContent->Amount);
         $transaction->setAmountDescription($decodedContent->AmountDescription);
         $transaction->setSourceOfFunds($decodedContent->SourceOfFunds);
@@ -90,7 +90,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/transaction/get", name="transaction_get")
+     * @Route("/transaction/get1", name="transaction_get")
      */
     public function getTransaction(Request $request){
 
@@ -176,4 +176,6 @@ class DefaultController extends Controller
 //        $updates = array('refNo'=>'574aeda7a8cd2', 'branch'=>'Dubai', 'dateTime'=>$dateTime->getTimestamp());
         return new Response(json_encode($updates));
     }
+
+   
 }

@@ -1,0 +1,250 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {{ parent() }}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.js"></script>
+    <script src="/assets/vendor/angular-qr-scanner/qr-scanner.js"></script>
+    <script src="/assets/vendor/angular-qr-scanner/src/jsqrcode-combined.min.js"></script>
+    <div class="row">
+        <div class="col-md-3 well" style="margin-left: 50px">
+            <div class="row">
+                <div class="col-lg-12  text-center" style="margin: 5px;padding: 0; background-color: GrayText" >
+                    <div class="h4" style="color: white">Transaction Details</div>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 3vh;" >
+                <div >
+                    <div class="user_detail-label label-info" ><div class="transaction-label-text">Reference Number</div></div>
+
+                    <div class="input-group" style="width:100%">
+                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="{{ Transaction.referenceNumber }}" />
+
+                    </div><!-- /input-group -->
+                    </div>
+                <div style="margin-top: 5px">
+                    <div class="user_detail-label label-info" ><div class="transaction-label-text">User</div></div>
+
+                    <div class="input-group" style="width:100%">
+                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="K A D B Priyadarshana" />
+
+                    </div><!-- /input-group -->
+
+                </div>
+                <div style="margin-top: 5px">
+                    <div class="user_detail-label label-info" ><div class="transaction-label-text">NIC/Passport</div></div>
+
+                    <div class="input-group" style="width:100%">
+                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="910000000V" />
+
+                    </div><!-- /input-group -->
+
+                </div>
+                <div style="margin-top: 5px">
+                    <div class="user_detail-label label-info" ><div class="transaction-label-text">Phone number</div></div>
+
+                    <div class="input-group" style="width:100%">
+                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="0712345678" />
+
+                    </div><!-- /input-group -->
+
+                </div>
+                <div style="margin-top: 5px">
+                    <div class="user_detail-label label-info" ><div class="transaction-label-text">Device ID (IMEI)</div></div>
+
+                    <div class="input-group" style="width:100%">
+                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="352245852478562" />
+
+                    </div><!-- /input-group -->
+
+                </div>
+                <div style="margin-top: 5px">
+                    <div class="user_detail-label label-info" ><div class="transaction-label-text">Device OS version</div></div>
+
+                    <div class="input-group" style="width:100%">
+                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="Android 4.4" />
+
+                    </div><!-- /input-group -->
+
+                </div>
+                <div style="margin-top: 5px">
+                    <div class="user_detail-label label-info" ><div style="vertical-align: middle;padding-top:5px">GPS Location</div></div>
+
+                    <div class="input-group" style="width:100%">
+                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="
+6.91723742,79.85420488" />
+
+                    </div><!-- /input-group -->
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-8  well" style="margin-left: 50px;padding-top: 3px">
+
+            <div class="row" style="padding-top: 1px" >
+                <div class="col-lg-12  text-center" style="padding-right: 0; background-color: black" >
+                    <div class="h3" style="color: white">
+                        {{Transaction.type|upper}}
+
+                    </div>
+                </div>
+            </div>
+
+
+
+                <div class="row" style="padding-top: 3vh;">
+                    <div class="col-lg-4  text-center" style="padding-right: 0;  text-align: left;" >
+                        <div style="" class="transaction-label label-info" ><div class="transaction-label-text">Account Number</div></div>
+                    </div>
+                    <div class="col-lg-8" style="padding-left: 0">
+                        <div class="input-group" style="width:100%;">
+                            <input id="ref" name="refNo" type="text" class="transaction-input form-control" value="{{ Transaction.account.accountNumber }}"/>
+
+                        </div><!-- /input-group -->
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 1vh;" >
+                    <div class="col-lg-4  text-center" style="padding-right: 0;  text-align: left;" >
+                        <div  class="transaction-label label-info" ><div class="transaction-label-text">Account Holder's Name</div></div>
+                    </div>
+                    <div class="col-lg-8" style="padding-left: 0">
+                        <div class="input-group" style="width:100%;">
+                            <input id="ref" name="refNo" type="text" class="transaction-input form-control" value="{{ Transaction.account.accountHolderName }}"/>
+
+                        </div><!-- /input-group -->
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top: 1vh;" >
+                    <div class="col-lg-4  text-center" style="padding-right: 0; text-align: left; " >
+                        <div class="transaction-label label-info" ><div class="transaction-label-text">NIC/Passport Number</div></div>
+                    </div>
+                    <div class="col-lg-8" style="padding-left: 0">
+                        <div class="input-group" style="width:100%;">
+                            <input id="ref" name="refNo" type="text" class="transaction-input form-control"  value="{{ Transaction.account.nic }}"/>
+
+                        </div><!-- /input-group -->
+                    </div>
+                </div>
+            <div class="row" style="padding-top: 1vh" >
+                <div class="col-lg-4  text-center" style="padding-right: 0; text-align: left;" >
+                    <div class="transaction-label label-info" ><div class="transaction-label-text">Amount</div></div>
+                </div>
+                <div class="col-lg-8" style="padding-left: 0">
+                    <div class="input-group" style="width:100%;">
+                        <input id="ref" name="refNo" type="text" class="transaction-input form-control" value="{{ Transaction.amount|number_format(2, '.', ',') }} &nbsp; LKR"/>
+
+                    </div><!-- /input-group -->
+                </div>
+            </div>
+                <div class="row" style="padding-top: 1vh;">
+                    <div class="col-lg-4  text-center" style="padding-right: 0; text-align: left; " >
+                        <div class="transaction-label label-info" ><div class="transaction-label-text">Notes and Coins</div></div>
+                    </div>
+                    <div class="col-lg-8" style="padding-left: 0">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Note</th>
+                            <th>Count</th>
+                            <th>Value</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% set i=0 %}
+                       {% for note in Notes %}
+                        <tr >
+                            <td style="padding: 0"><div class="row" >
+                                    {% if note!="1" %}
+                                    <div class="col-lg-5 col-lg-offset-2" style="padding: 0">{{ note }}</div>
+                                    <div class="col-lg-4">X</div></div>
+                                {% else %}
+                                <div class="col-lg-8 col-lg-offset-4" style="padding: 0">Coins</div>
+
+                                {% endif %}
+                            </td>
+                            <td style="padding: 0">
+                                {% if Transaction.type =="Cash Withdraw" %}
+                                <div class="input-group" style="padding: 0">
+                                    <input id="ref" name="refNo" type="text"
+
+                                           style="pointer-events: all"
+                                         class="transaction-input form-control"  value="0" />
+
+                                </div>
+                                {%else  %}
+                                    {{ NotesCount[note] }}
+                                {% endif %}
+                            </td>
+                            <td style="padding: 0">
+                                {{ note*NotesCount[note]|number_format(2, '.', ',')  }}
+                            </td>
+
+                        </tr>
+                           {% set i= i+1 %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                        </div>
+
+                </div>
+            <div class="row" style="padding-top: 0;" >
+                <div class="col-lg-4  text-center" style="padding-right: 0; text-align: left; " >
+                    <div class="transaction-label label-info" ><div class="transaction-label-text">Teller</div></div>
+                </div>
+                <div class="col-lg-8" style="padding-left: 0">
+                    <div class="input-group" style="width:100%;">
+                        <input id="teller" name="teller" type="text" class="transaction-input form-control"  value="Teller1" />
+
+                    </div><!-- /input-group -->
+                </div>
+            </div>
+            <div class="row" style="padding-top: 1vh;" >
+                <div class="col-lg-4  text-center" style="padding-right: 0; text-align: left; " >
+                    <div class="transaction-label label-info" ><div class="transaction-label-text">Branch</div></div>
+                </div>
+                <div class="col-lg-8" style="padding-left: 0">
+                    <div class="input-group" style="width:100%;">
+                        <input id="branch" name="branch" type="text" class="transaction-input form-control"  value="Bambalapitiya" />
+
+                    </div><!-- /input-group -->
+                </div>
+            </div>
+            <div class="row" style="padding-top: 1vh;" >
+                <div class="col-lg-4  text-center" style="padding-right: 0; text-align: left; " >
+                    <div class="transaction-label label-info" ><div class="transaction-label-text">Date and Time</div></div>
+                </div>
+                <div class="col-lg-8" style="padding-left: 0">
+                    <div class="input-group" style="width:100%;">
+                        <input id="dateTime" name="dateTime" type="text" class="transaction-input form-control" value="{{ "now"|date("m/d/Y  H:i:s","Asia/colombo") }}" />
+
+                    </div><!-- /input-group -->
+                </div>
+            </div>
+            <div class="row" style="padding-top: 2vh;" >
+                <div class="col-lg-7 col-lg-offset-2"><div id="successText" class="h3 text-bold text-success"></div></div>
+                <div class="col-lg-2 "><button class="btn btn-danger right" onclick="proceed()">PROCEED</button></div>
+            </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    <script>
+        function proceed(){
+            $data = {"refNo": "{{ Transaction.referenceNumber }}", "branch": $("#branch").val() };
+            $.ajax({
+                        method: "POST",
+                        url: "/transaction/proceed",
+                        dataType: 'json',
+                        data: JSON.stringify( $data )
+                    })
+                    .done(function( msg ) {
+                       // alert( "Data Saved: " + msg );
+                        $("#successText").html("TRANSACTION SUCCESSFUL!");
+                        window.location.href = '/transaction/scanner';
+                    });
+        }
+    </script>
+{% endblock %}
