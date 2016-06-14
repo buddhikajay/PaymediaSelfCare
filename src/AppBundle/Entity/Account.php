@@ -38,20 +38,20 @@ class Account
     /**
      * @var string
      *
-     * @ORM\Column(name="nic", type="string", length=20)
+     * @ORM\Column(name="nic", type="string", length=20,nullable=true)
      */
     private $nic;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="phoneNumber", type="string", length=25)
+     * @ORM\Column(name="phoneNumber", type="string", length=25,nullable=true)
      */
     private $phoneNumber;
     /**
      * @var string
      *
-     * @ORM\Column(name="accountType", type="string", length=25)
+     * @ORM\Column(name="accountType", type="string", length=25,nullable=true)
      */
     private $accountType;
 

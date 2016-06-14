@@ -28,6 +28,71 @@ class User
      * @ORM\Column(name="userId", type="string", length=25, unique=true)
      */
     private $userId;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phoneNumber", type="string", length=25)
+     */
+    private $phoneNumber;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="deviceId", type="string", length=25)
+     */
+    private $deviceId;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="enabled", type="boolean")
+     */
+    private $enabled;
+
+    /**
+     * @return string
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param string $enabled
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    }
+    /**
+     * @return string
+     */
+    public function getDeviceId()
+    {
+        return $this->deviceId;
+    }
+
+    /**
+     * @param string $deviceId
+     */
+    public function setDeviceId($deviceId)
+    {
+        $this->deviceId = $deviceId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @param mixed $phoneNumber
+     */
+    public function setPhoneNumber($phoneNumber)
+    {
+        $this->phoneNumber = $phoneNumber;
+    }
 
 
     /**
