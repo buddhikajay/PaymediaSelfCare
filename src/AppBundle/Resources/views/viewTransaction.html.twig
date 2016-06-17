@@ -29,15 +29,7 @@
                     </div><!-- /input-group -->
 
                 </div>
-                <div style="margin-top: 5px">
-                    <div class="user_detail-label label-info" ><div class="transaction-label-text">NIC/Passport</div></div>
 
-                    <div class="input-group" style="width:100%">
-                        <input id="ref" name="refNo" type="text" class="user_detail-input form-control" value="{{ user.nic }}" />
-
-                    </div><!-- /input-group -->
-
-                </div>
                 <div style="margin-top: 5px">
                     <div class="user_detail-label label-info" ><div class="transaction-label-text">Phone number</div></div>
 
@@ -114,17 +106,17 @@
                     </div>
                 </div>
 
-                <div class="row" style="padding-top: 1vh;" >
-                    <div class="col-lg-4  text-center" style="padding-right: 0; text-align: left; " >
-                        <div class="transaction-label label-info" ><div class="transaction-label-text">NIC/Passport Number</div></div>
-                    </div>
-                    <div class="col-lg-8" style="padding-left: 0">
-                        <div class="input-group" style="width:100%;">
-                            <input id="ref" name="refNo" type="text" class="transaction-input form-control"  value="{{ Transaction.account.nic }}"/>
+                {#<div class="row" style="padding-top: 1vh;" >#}
+                    {#<div class="col-lg-4  text-center" style="padding-right: 0; text-align: left; " >#}
+                        {#<div class="transaction-label label-info" ><div class="transaction-label-text">NIC/Passport Number</div></div>#}
+                    {#</div>#}
+                    {#<div class="col-lg-8" style="padding-left: 0">#}
+                        {#<div class="input-group" style="width:100%;">#}
+                            {#<input id="ref" name="refNo" type="text" class="transaction-input form-control"  value="{{ Transaction.account.nic }}"/>#}
 
-                        </div><!-- /input-group -->
-                    </div>
-                </div>
+                        {#</div><!-- /input-group -->#}
+                    {#</div>#}
+                {#</div>#}
             <div class="row" style="padding-top: 1vh" >
                 <div class="col-lg-4  text-center" style="padding-right: 0; text-align: left;" >
                     <div class="transaction-label label-info" ><div class="transaction-label-text">Amount</div></div>
@@ -140,13 +132,13 @@
                     <div class="col-lg-4  text-center" style="padding-right: 0; text-align: left; " >
                         <div class="transaction-label label-info" ><div class="transaction-label-text">Notes and Coins</div></div>
                     </div>
-                    <div class="col-lg-8" style="padding-left: 0">
+                    <div class="col-lg-8" style="padding-left: 0;padding-right: 10%">
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>Note</th>
+                            <th style="text-align: center">Note</th>
                             <th>Count</th>
-                            <th>Value</th>
+                            <th style="text-align: end">Value</th>
 
                         </tr>
                         </thead>
@@ -156,8 +148,8 @@
                         <tr >
                             <td style="padding: 0"><div class="row" >
                                     {% if note!="1" %}
-                                    <div class="col-lg-5 col-lg-offset-2" style="padding: 0">{{ note }}</div>
-                                    <div class="col-lg-4">X</div></div>
+                                    <div class="col-lg-5 col-lg-offset-2" style="padding: 0; text-align: end">{{ note }}</div>
+                                    <div class="col-lg-4">&nbsp&nbsp&nbspX</div></div>
                                 {% else %}
                                 <div class="col-lg-8 col-lg-offset-4" style="padding: 0">Coins</div>
 
@@ -165,7 +157,7 @@
                             </td>
                             <td style="padding: 0">
                                 {% if Transaction.type =="Cash Withdraw" %}
-                                <div class="input-group" style="padding: 0">
+                                <div class="input-group" style="padding: 0;text-align: end">
                                     <input id="ref" name="refNo" type="text"
 
                                            style="pointer-events: all"
@@ -176,8 +168,8 @@
                                     {{ NotesCount[note] }}
                                 {% endif %}
                             </td>
-                            <td style="padding: 0">
-                                {{ note*NotesCount[note]|number_format(2, '.', ',')  }}
+                            <td style="padding: 0;text-align: end">
+                                {{ (note*NotesCount[note])|number_format(0, ',')  }}
                             </td>
 
                         </tr>
