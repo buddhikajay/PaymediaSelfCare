@@ -137,7 +137,7 @@
                         <thead>
                         <tr>
                             <th style="text-align: center">Note</th>
-                            <th>Count</th>
+                            <th style="text-align: center">Count</th>
                             <th style="text-align: end">Value</th>
 
                         </tr>
@@ -149,22 +149,24 @@
                             <td style="padding: 0"><div class="row" >
                                     {% if note!="1" %}
                                     <div class="col-lg-5 col-lg-offset-2" style="padding: 0; text-align: end">{{ note }}</div>
-                                    <div class="col-lg-4">&nbsp&nbsp&nbspX</div></div>
+                                    <div class="col-lg-4">&nbsp&nbspX</div></div>
                                 {% else %}
                                 <div class="col-lg-8 col-lg-offset-4" style="padding: 0">Coins</div>
 
                                 {% endif %}
                             </td>
-                            <td style="padding: 0">
+                            <td
                                 {% if Transaction.type =="Cash Withdraw" %}
+                                    style="padding:0;padding-left: 20px">
                                 <div class="input-group" style="padding: 0;text-align: end">
                                     <input id="ref" name="refNo" type="text"
 
-                                           style="pointer-events: all"
+                                           style="pointer-events: all; text-align: end"
                                          class="transaction-input form-control"  value="0" />
 
                                 </div>
                                 {%else  %}
+                                    style="padding: 0">
                                     {{ NotesCount[note] }}
                                 {% endif %}
                             </td>
