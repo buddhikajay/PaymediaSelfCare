@@ -88,6 +88,13 @@ class Transaction
      */
     private $status;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="pin_reqired", type="boolean")
+     */
+    private $pinRequired;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
@@ -344,5 +351,29 @@ class Transaction
     public function getSourceOfFunds()
     {
         return $this->sourceOfFunds;
+    }
+
+    /**
+     * Set pinRequired
+     *
+     * @param boolean $pinRequired
+     *
+     * @return Transaction
+     */
+    public function setPinRequired($pinRequired)
+    {
+        $this->pinRequired = $pinRequired;
+
+        return $this;
+    }
+
+    /**
+     * Get pinRequired
+     *
+     * @return boolean
+     */
+    public function getPinRequired()
+    {
+        return $this->pinRequired;
     }
 }

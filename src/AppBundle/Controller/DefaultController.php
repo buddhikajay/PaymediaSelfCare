@@ -154,13 +154,32 @@ class DefaultController extends Controller
         $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AppBundle:Transaction');
+        $updates = array();
+
+//        For prototype, only one transaction can be handled at a given time
+        $pinRequiredTransaction= $repository->createQueryBuilder('transaction')
+            ->where('transaction.pinRequired = 1')
+            ->getQuery()
+            ->getResult();
+        if($pinRequiredTransaction){
+            foreach($pinRequiredTransaction as $transaction){
+                $transaction->setPinRequired(false);
+                $em->flush();
+                $tempUpdate = array(
+                    'refNo'=>'pin',
+                    'branch'=>null,
+                    'dateTime'=> null);
+                array_push($updates, $tempUpdate);
+            }
+            return new Response(json_encode($updates));
+        }
+
         $query = $repository->createQueryBuilder('t')
             ->where('t.status = :status')
             ->setParameter('status', '1')
             ->getQuery();
         $updatedTransactions = $query->getResult();
 
-        $updates = array();
         foreach($updatedTransactions as $transaction){
             $dateTime = new \DateTime();
 //            $logger->debug($dateTime);
@@ -176,6 +195,19 @@ class DefaultController extends Controller
 //        $dateTime = new \DateTime();
 //        $updates = array('refNo'=>'574aeda7a8cd2', 'branch'=>'Dubai', 'dateTime'=>$dateTime->getTimestamp());
         return new Response(json_encode($updates));
+    }
+
+    /**
+     * @Route(path="/transaction/pinRequest", name="pin_request")
+     */
+    public function pinRequestAction(){
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Transaction');
+        $transaction = $repository->findOneBy(array('id' => 1));
+        $transaction->setPinRequired(true);
+        $em->flush();
+
+        return new Response(json_encode('success'));
     }
 
    

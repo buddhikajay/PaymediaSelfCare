@@ -34,6 +34,7 @@ class TransactionController extends Controller
         $transactionType = $transaction->getType();
         $notesCount =array(5000=>0,2000=>0,1000=>0,500=>0,100=>0,50=>0,20=>0,10=>0,1=>0);
         $notesArray = [5000, 2000, 1000, 500, 100, 50, 20, 10,1];
+        $amountDescriptionArray=null;//array to store cash denomination or cheque details
         if($transactionType == 'Cash Deposit') {
             $amountDescription = $transaction->getAmountDescription();
             $amountDescriptionArray = json_decode($amountDescription, true);
@@ -49,6 +50,9 @@ class TransactionController extends Controller
 //        $logger->debug($amountDescription);
 //        $logger->debug($amountDescriptionArray[5000]);
            
+        }
+        else if($transactionType=='Cash Withdraw'){
+
         }
         else if($transactionType=='Cheque Deposit'){
             $amountDescription = $transaction->getAmountDescription();
