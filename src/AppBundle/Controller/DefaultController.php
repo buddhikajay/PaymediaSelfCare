@@ -157,13 +157,13 @@ class DefaultController extends Controller
         $updates = array();
 
 //        For prototype, only one transaction can be handled at a given time
-        $pinRequiredTransaction= $repository->createQueryBuilder('transaction')
-            ->where('transaction.pinRequired = 1')
+        $pinRequestedTransaction= $repository->createQueryBuilder('transaction')
+            ->where('transaction.pinRequested = 1')
             ->getQuery()
             ->getResult();
-        if($pinRequiredTransaction){
-            foreach($pinRequiredTransaction as $transaction){
-                $transaction->setPinRequired(false);
+        if($pinRequestedTransaction){
+            foreach($pinRequestedTransaction as $transaction){
+                $transaction->setpinRequested(false);
                 $em->flush();
                 $tempUpdate = array(
                     'refNo'=>'pin',
@@ -198,16 +198,31 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route(path="/transaction/pinRequest", name="pin_request")
+     * @Route(path="/transaction/pinRequest", name="request_pin")
      */
     public function pinRequestAction(){
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AppBundle:Transaction');
         $transaction = $repository->findOneBy(array('id' => 1));
-        $transaction->setPinRequired(true);
+        $transaction->setpinRequested(true);
         $em->flush();
 
         return new Response(json_encode('success'));
+    }
+
+    /**
+     * @Route(path="/transaction/checkPin", name="check_pin")
+     */
+    public function checkPinAction(){
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Transaction');
+        $transaction = $repository->findOneBy(array('id' => 1));
+        if($transaction->getInputPin()){
+            return new Response(json_encode(array('success'=>true)));
+        }
+        else{
+            return new Response(json_encode(array('success'=>false)));
+        }
     }
 
    

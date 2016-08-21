@@ -89,11 +89,18 @@ class Transaction
     private $status;
 
     /**
-     * @var int
+     * @var boolean
      *
-     * @ORM\Column(name="pin_reqired", type="boolean")
+     * @ORM\Column(name="pin_requested", type="boolean")
      */
-    private $pinRequired;
+    private $pinRequested;
+
+
+    /**
+     * @var int
+     * @ORM\Column(name="input_pin", type="integer")
+     */
+    private $inputPin;
 
     public function __construct()
     {
@@ -354,26 +361,60 @@ class Transaction
     }
 
     /**
-     * Set pinRequired
+     * Set pinRequested
      *
-     * @param boolean $pinRequired
+     * @param boolean $pinRequested
      *
      * @return Transaction
      */
-    public function setPinRequired($pinRequired)
+    public function setPinRequested($pinRequested)
     {
-        $this->pinRequired = $pinRequired;
+        $this->pinRequested = $pinRequested;
 
         return $this;
     }
 
     /**
-     * Get pinRequired
+     * Get pinRequested
      *
      * @return boolean
      */
-    public function getPinRequired()
+    public function isPinRequested()
     {
-        return $this->pinRequired;
+        return $this->pinRequested;
+    }
+
+    /**
+     * Get pinRequested
+     *
+     * @return boolean
+     */
+    public function getPinRequested()
+    {
+        return $this->pinRequested;
+    }
+
+    /**
+     * Set inputPin
+     *
+     * @param integer $inputPin
+     *
+     * @return Transaction
+     */
+    public function setInputPin($inputPin)
+    {
+        $this->inputPin = $inputPin;
+
+        return $this;
+    }
+
+    /**
+     * Get inputPin
+     *
+     * @return integer
+     */
+    public function getInputPin()
+    {
+        return $this->inputPin;
     }
 }
