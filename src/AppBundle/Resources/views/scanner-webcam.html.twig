@@ -1,7 +1,7 @@
 
 {% extends 'base.html.twig' %}
 {% block body %}
-    {{ parent() }}
+{{ parent() }}
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.js"></script>
     <script src="/assets/vendor/angular-qr-scanner/qr-scanner.js"></script>
     <script src="/assets/vendor/angular-qr-scanner/src/jsqrcode-combined.min.js"></script>
@@ -26,42 +26,35 @@
             </form>
         </div>
     </div>
-    <div class="row" style="padding-top: 8vh"><div class="col-lg-12 h1 text-center" style="color: #5cb85c">SCAN QR CODE</div></div>
-
-    <script>
-        $(document).ready(function() {
-            $("#ref").focus();
-
-        });
-    </script>
-    {#<div class="row"  ng-app="App">#}
+    <div class="row" style="padding-top: 8vh"><div class="col-lg-12 h1 text-center" style="color: #5cb85c">SCANNING QR CODE...</div></div>
+    <div class="row"  ng-app="App">
 
 
-        {#<div  ng-controller="qrCrtl" class="col-lg-12 text-center" >#}
-            {#<qr-scanner width="400" height="300" ng-success="onSuccess(data)" ng-error="onError(error)" />#}
+        <div  ng-controller="qrCrtl" class="col-lg-12 text-center" >
+                <qr-scanner width="400" height="300" ng-success="onSuccess(data)" ng-error="onError(error)" />
 
-            {#<script>#}
+                <script>
 
-                {#var App = angular.module('App', ['qrScanner']);#}
+                    var App = angular.module('App', ['qrScanner']);
 
-                {#App.controller('qrCrtl', ['$scope', function($scope) {#}
-                    {#$scope.onSuccess = function(data) {#}
-                        {#$("#ref").val(data);#}
-                        {#console.log(data);#}
+                    App.controller('qrCrtl', ['$scope', function($scope) {
+                        $scope.onSuccess = function(data) {
+                            $("#ref").val(data);
+                            console.log(data);
 
-                    {#};#}
-                    {#$scope.onError = function(error) {#}
-                        {#console.log(error);#}
-                    {#};#}
-                    {#$scope.onVideoError = function(error) {#}
-                        {#console.log(error);#}
-                    {#};#}
-                {#}]);#}
+                        };
+                        $scope.onError = function(error) {
+                            console.log(error);
+                        };
+                        $scope.onVideoError = function(error) {
+                            console.log(error);
+                        };
+                    }]);
 
-            {#</script>#}
-        {#</div>#}
+                </script>
+        </div>
 
-    {#</div>#}
+    </div>
 
 
 {% endblock %}
