@@ -119,7 +119,14 @@
                 {#</div>#}
             <div class="row" style="padding-top: 1vh" >
                 <div class="col-lg-4  text-center" style="padding-right: 0; text-align: left;" >
-                    <div class="transaction-label label-info" ><div class="transaction-label-text">Amount</div></div>
+                    <div class="transaction-label label-info" ><div class="transaction-label-text">
+                            {% if Transaction.type == "Cheque Deposit" %}
+                                Total Amount
+                            {% else %}
+                                Amount
+                            {% endif %}
+
+                        </div></div>
                 </div>
                 <div class="col-lg-8" style="padding-left: 0">
                     <div class="input-group" style="width:100%;">
@@ -128,6 +135,7 @@
                     </div><!-- /input-group -->
                 </div>
             </div>
+            {% if Transaction.type=="Cash Deposit" or Transaction.type=="Cash Withdraw" %}
                 <div class="row" style="padding-top: 1vh;">
                     <div class="col-lg-4  text-center" style="padding-right: 0; text-align: left; " >
                         <div class="transaction-label label-info" ><div class="transaction-label-text">Notes and Coins</div></div>
@@ -182,6 +190,53 @@
                         </div>
 
                 </div>
+            {% else %}
+                <div class="row" style="padding-top: 1vh;">
+                    <div class="col-lg-4  text-center" style="padding-right: 0; text-align: left; " >
+                        <div class="transaction-label label-info" ><div class="transaction-label-text">Notes and Coins</div></div>
+                    </div>
+                    <div class="col-lg-8" style="padding-left: 0;padding-right: 10%">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th style="text-align: center">Bank</th>
+                                <th style="text-align: center">Cheque Number</th>
+                                <th style="text-align: end">Amount</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% set i=0 %}
+                            {% for cheque in Cheques %}
+                                <tr >
+                                    <td style="padding: 0"><div class="row" >
+
+                                            <div class="col-lg-5 col-lg-offset-2" style="padding: 0; text-align: end">{{ cheque['Bank'] }}</div>
+                                            {#<div class="col-lg-4">&nbsp&nbspX</div>#}
+                                        </div>
+
+                                    </td>
+                                    <td
+
+                                            style="padding: 0;padding-left: 80px">
+                                            {{ cheque["ChequeNumber"] }}
+
+                                    </td>
+                                    <td style="padding: 0;text-align: end">
+                                        {{ cheque["Value"]|number_format(2, '.', ',')  }}
+                                        {#{{ (note*NotesCount[note])|number_format(0, ',')  }}#}
+                                    </td>
+
+                                </tr>
+                                {% set i= i+1 %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            {% endif %}
             <div class="row" style="padding-top: 0;" >
                 <div class="col-lg-4  text-center" style="padding-right: 0; text-align: left; " >
                     <div class="transaction-label label-info" ><div class="transaction-label-text">Teller</div></div>

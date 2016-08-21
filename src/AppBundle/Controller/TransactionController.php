@@ -50,9 +50,18 @@ class TransactionController extends Controller
 //        $logger->debug($amountDescriptionArray[5000]);
            
         }
+        else if($transactionType=='Cheque Deposit'){
+            $amountDescription = $transaction->getAmountDescription();
+            $amountDescriptionArray = json_decode($amountDescription, true);
+           // $logger->debug("Cheque Data array: ".$amountDescriptionArray);
+            foreach($amountDescriptionArray as $cheque){
+                //$chequeData = json_decode($cheque);
+                $logger->debug("Cheque Daata: ".$cheque['Bank']);
+            }
+        }
 
         return $this->render('@App/viewTransaction.html.twig', array("Transaction"=>$transaction
-        ,"NotesCount"=>$notesCount,"Notes"=>$notesArray,"user"=>$user));
+        ,"NotesCount"=>$notesCount,"Notes"=>$notesArray,"user"=>$user,"Cheques"=>$amountDescriptionArray));
     }
 
     /**
