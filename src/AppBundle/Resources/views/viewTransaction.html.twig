@@ -200,11 +200,12 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th style="text-align: center">Index</th>
-                                <th style="text-align: center">Bank</th>
-                                <th style="text-align: center">Cheque Number</th>
+                                <th style="text-align: right">Index</th>
+                                <th style="text-align: left">Bank</th>
+                                <th style="text-align: right">Cheque Number</th>
+                                <th style="text-align: right">Branch Code</th>
                                 <th style="text-align: center">Amount</th>
-                                <th style="text-align: end"></th>
+                                <th style="text-align: right"></th>
 
                             </tr>
                             </thead>
@@ -222,10 +223,13 @@
                                         </div>
 
                                     </td>
-                                    <td style="padding: 0;padding-left: 70px">
+                                    <td style="padding: 0;padding-left: 60px">
                                             {{ cheque["ChequeNumber"] }}
                                     </td>
-                                    <td style="padding: 0;padding-left: 70px">
+                                    <td style="padding: 0;padding-left: 40px">
+                                        {{ cheque["ChequeNumber"] }}
+                                    </td>
+                                    <td style="padding: 0;padding-left: 30px">
                                         {{ cheque["Value"]|number_format(2, '.', ',')  }}
                                         {#{{ (note*NotesCount[note])|number_format(0, ',')  }}#}
                                     </td>
@@ -278,7 +282,7 @@
             </div>
 
             {% set tabIndexCount = 1 %}
-            {% for cheque in Cheques %}}
+            {% for cheque in Cheques %}
                 <div class="row" style="padding-top: 1vh;" >
                     {#<div class="col-lg-2  text-center" style="padding-right: 0; text-align: left; " ></div>#}
                     <div class="col-lg-6">
