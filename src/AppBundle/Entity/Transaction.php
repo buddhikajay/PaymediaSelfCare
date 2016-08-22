@@ -86,21 +86,21 @@ class Transaction
      *
      * @ORM\Column(name="status", type="integer")
      */
-    private $status;
+    private $status = 0;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="pin_requested", type="boolean")
+     * @ORM\Column(name="pin_requested", type="boolean", nullable=true)
      */
-    private $pinRequested;
+    private $pinRequested = false;
 
 
     /**
      * @var int
-     * @ORM\Column(name="input_pin", type="integer")
+     * @ORM\Column(name="input_pin", type="integer", nullable=true)
      */
-    private $inputPin;
+    private $inputPin = 0;
 
     public function __construct()
     {

@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     {{ parent() }}
+    {% set numCheckBoxes = 6 %}
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.js"></script>
     <script src="/assets/vendor/angular-qr-scanner/qr-scanner.js"></script>
     <script src="/assets/vendor/angular-qr-scanner/src/jsqrcode-combined.min.js"></script>
@@ -199,9 +200,11 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
+                                <th style="text-align: center">Index</th>
                                 <th style="text-align: center">Bank</th>
                                 <th style="text-align: center">Cheque Number</th>
-                                <th style="text-align: end">Amount</th>
+                                <th style="text-align: center">Amount</th>
+                                <th style="text-align: end"></th>
 
                             </tr>
                             </thead>
@@ -209,6 +212,9 @@
                             {% set i=0 %}
                             {% for cheque in Cheques %}
                                 <tr >
+                                    <td style="padding: 0;padding-left: 50px">
+                                        {{ i+1 }}
+                                    </td>
                                     <td style="padding: 0"><div class="row" >
 
                                             <div class="col-lg-5 col-lg-offset-2" style="padding: 0; text-align: end">{{ cheque['Bank'] }}</div>
@@ -216,15 +222,15 @@
                                         </div>
 
                                     </td>
-                                    <td
-
-                                            style="padding: 0;padding-left: 80px">
+                                    <td style="padding: 0;padding-left: 70px">
                                             {{ cheque["ChequeNumber"] }}
-
                                     </td>
-                                    <td style="padding: 0;text-align: end">
+                                    <td style="padding: 0;padding-left: 70px">
                                         {{ cheque["Value"]|number_format(2, '.', ',')  }}
                                         {#{{ (note*NotesCount[note])|number_format(0, ',')  }}#}
+                                    </td>
+                                    <td style="padding: 0;text-align: end">
+                                        <input type="checkbox" tabindex="{{ (i+1)*(numCheckBoxes + 1) }}">
                                     </td>
 
                                 </tr>
@@ -270,6 +276,53 @@
                     </div><!-- /input-group -->
                 </div>
             </div>
+
+            {% set tabIndexCount = 1 %}
+            {% for cheque in Cheques %}}
+                <div class="row" style="padding-top: 1vh;" >
+                    {#<div class="col-lg-2  text-center" style="padding-right: 0; text-align: left; " ></div>#}
+                    <div class="col-lg-6">
+                        <img src="{{ asset('images/cheque.png') }}" style="max-width: 100%; height: auto">
+                    </div>
+                    <div class="controls span2 col-lg-2">
+                        <label class="checkbox">
+                            <input type="checkbox" tabindex="{{ tabIndexCount }}"> Date
+                        </label>
+                        {% set tabIndexCount = tabIndexCount + 1 %}
+
+                        <label class="checkbox">
+                            <input type="checkbox"  tabindex="{{ tabIndexCount }}"> Amount
+                        </label>
+                        {% set tabIndexCount = tabIndexCount + 1 %}
+
+                        <label class="checkbox">
+                            <input type="checkbox" tabindex="{{ tabIndexCount }}"> Narration
+                        </label>
+                        {% set tabIndexCount = tabIndexCount + 1 %}
+
+                    {#</div>#}
+                    {#<div class="controls span2 col-lg-2">#}
+                        <label class="checkbox">
+                            <input type="checkbox" tabindex="{{ tabIndexCount }}"> A/C Number
+                        </label>
+                        {% set tabIndexCount = tabIndexCount + 1 %}
+
+                        <label class="checkbox">
+                            <input type="checkbox" tabindex="{{ tabIndexCount }}"> Name
+                        </label>
+                        {% set tabIndexCount = tabIndexCount + 1 %}
+
+                        <label class="checkbox">
+                            <input type="checkbox" tabindex="{{ tabIndexCount }}"> Signature
+                        </label>
+                        {% set tabIndexCount = tabIndexCount + 1 %}
+
+                    </div>
+                </div>
+                {# to reserve an index for selecting check #}
+                {% set tabIndexCount = tabIndexCount + 1 %}
+            {% endfor %}
+
             <div class="row" style="padding-top: 2vh;" >
                 <div class="col-lg-7 col-lg-offset-2"><div id="successText" class="h3 text-bold text-success"></div></div>
                 <div class="col-lg-2 "><button id = 'btn_proceed' class="btn btn-danger right" onclick="proceed()">PROCEED</button></div>
@@ -296,7 +349,8 @@
                         window.location.href = '/transaction/scanner';
                     });
         }
-        {% if Transaction.type = 'Cash Withdraw' %}
+
+        {% if Transaction.type == 'Cash Withdraw' %}
 
         window.onload = function(){
             console.log('Running document ready');
