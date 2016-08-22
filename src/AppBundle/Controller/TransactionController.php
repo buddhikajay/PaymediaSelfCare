@@ -51,16 +51,16 @@ class TransactionController extends Controller
 //        $logger->debug($amountDescriptionArray[5000]);
            
         }
-        else if($transactionType=='Cash Withdraw'){
-
-        }
+//        else if($transactionType=='Cash Withdraw'){
+//
+//        }
         else if($transactionType=='Cheque Deposit'){
             $amountDescription = $transaction->getAmountDescription();
             $amountDescriptionArray = json_decode($amountDescription, true);
            // $logger->debug("Cheque Data array: ".$amountDescriptionArray);
             foreach($amountDescriptionArray as $cheque){
                 //$chequeData = json_decode($cheque);
-                $logger->debug("Cheque Daata: ".$cheque['Bank']);
+                $logger->debug("Cheque Data: ".$cheque['Bank']);
             }
         }
 

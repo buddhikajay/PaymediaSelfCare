@@ -27,7 +27,7 @@ class DefaultController extends Controller
 //        return $this->render('default/index.html.twig', [
 //            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
 //        ]);
-        return $this->render('@App/scanner.html.twig');
+        return $this->redirectToRoute('transaction_scanner');
     }
 
     /**
