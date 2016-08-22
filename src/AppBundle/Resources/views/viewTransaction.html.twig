@@ -281,51 +281,63 @@
                 </div>
             </div>
 
-            {% set tabIndexCount = 1 %}
-            {% for cheque in Cheques %}
+            {% if Transaction.type=="Cheque Deposit" %}
                 <div class="row" style="padding-top: 1vh;" >
-                    {#<div class="col-lg-2  text-center" style="padding-right: 0; text-align: left; " ></div>#}
-                    <div class="col-lg-6">
-                        <img src="{{ asset('images/cheque.png') }}" style="max-width: 100%; height: auto">
-                    </div>
-                    <div class="controls span2 col-lg-2">
-                        <label class="checkbox">
-                            <input type="checkbox" tabindex="{{ tabIndexCount }}"> Date
-                        </label>
-                        {% set tabIndexCount = tabIndexCount + 1 %}
-
-                        <label class="checkbox">
-                            <input type="checkbox"  tabindex="{{ tabIndexCount }}"> Amount
-                        </label>
-                        {% set tabIndexCount = tabIndexCount + 1 %}
-
-                        <label class="checkbox">
-                            <input type="checkbox" tabindex="{{ tabIndexCount }}"> Narration
-                        </label>
-                        {% set tabIndexCount = tabIndexCount + 1 %}
-
+                    {#<div class="col-lg-4  text-center" style="padding-right: 0; text-align: left; " >#}
+                        {#<div class="transaction-label label-info" ><div class="transaction-label-text"></div></div>#}
                     {#</div>#}
-                    {#<div class="controls span2 col-lg-2">#}
-                        <label class="checkbox">
-                            <input type="checkbox" tabindex="{{ tabIndexCount }}"> A/C Number
-                        </label>
-                        {% set tabIndexCount = tabIndexCount + 1 %}
-
-                        <label class="checkbox">
-                            <input type="checkbox" tabindex="{{ tabIndexCount }}"> Name
-                        </label>
-                        {% set tabIndexCount = tabIndexCount + 1 %}
-
-                        <label class="checkbox">
-                            <input type="checkbox" tabindex="{{ tabIndexCount }}"> Signature
-                        </label>
-                        {% set tabIndexCount = tabIndexCount + 1 %}
-
+                    <div class="col-lg-12">
+                        <div class="input-group" style="width:100%;">
+                            <div class="transaction-label label-info" ><div class="transaction-label-text" style="text-align: center">Cheque Images</div></div>
+                        </div><!-- /input-group -->
                     </div>
                 </div>
-                {# to reserve an index for selecting check #}
-                {% set tabIndexCount = tabIndexCount + 1 %}
-            {% endfor %}
+                {% set tabIndexCount = 1 %}
+                {% for cheque in Cheques %}
+                    <div class="row" style="padding-top: 1vh;" >
+                        {#<div class="col-lg-2  text-center" style="padding-right: 0; text-align: left; " ></div>#}
+                        <div class="col-lg-6">
+                            <img src="{{ asset('images/cheque.png') }}" style="max-width: 100%; height: auto">
+                        </div>
+                        <div class="controls span2 col-lg-2">
+                            <label class="checkbox">
+                                <input type="checkbox" tabindex="{{ tabIndexCount }}"> Date
+                            </label>
+                            {% set tabIndexCount = tabIndexCount + 1 %}
+
+                            <label class="checkbox">
+                                <input type="checkbox"  tabindex="{{ tabIndexCount }}"> Amount
+                            </label>
+                            {% set tabIndexCount = tabIndexCount + 1 %}
+
+                            <label class="checkbox">
+                                <input type="checkbox" tabindex="{{ tabIndexCount }}"> Narration
+                            </label>
+                            {% set tabIndexCount = tabIndexCount + 1 %}
+
+                        {#</div>#}
+                        {#<div class="controls span2 col-lg-2">#}
+                            <label class="checkbox">
+                                <input type="checkbox" tabindex="{{ tabIndexCount }}"> A/C Number
+                            </label>
+                            {% set tabIndexCount = tabIndexCount + 1 %}
+
+                            <label class="checkbox">
+                                <input type="checkbox" tabindex="{{ tabIndexCount }}"> Name
+                            </label>
+                            {% set tabIndexCount = tabIndexCount + 1 %}
+
+                            <label class="checkbox">
+                                <input type="checkbox" tabindex="{{ tabIndexCount }}"> Signature
+                            </label>
+                            {% set tabIndexCount = tabIndexCount + 1 %}
+
+                        </div>
+                    </div>
+                    {# to reserve an index for selecting check #}
+                    {% set tabIndexCount = tabIndexCount + 1 %}
+                {% endfor %}
+            {% endif %}
 
             <div class="row" style="padding-top: 2vh;" >
                 <div class="col-lg-7 col-lg-offset-2"><div id="successText" class="h3 text-bold text-success"></div></div>
