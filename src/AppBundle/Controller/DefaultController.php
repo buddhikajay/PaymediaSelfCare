@@ -204,6 +204,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AppBundle:Transaction');
         $transaction = $repository->findOneBy(array('id' => 1));
+        $transaction->setInputPin(0);
         $transaction->setpinRequested(true);
         $em->flush();
 
@@ -223,6 +224,19 @@ class DefaultController extends Controller
         else{
             return new Response(json_encode(array('success'=>false)));
         }
+    }
+
+    /**
+     * @Route(path="/transaction/pinVerify", name="verify_pin")
+     */
+    public function pinVerifyAction(){
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Transaction');
+        $transaction = $repository->findOneBy(array('id' => 1));
+        $transaction->setInputPin(1234);
+        $em->flush();
+
+        return new Response(json_encode('success'));
     }
 
    

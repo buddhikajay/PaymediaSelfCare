@@ -340,7 +340,7 @@
             {% endif %}
 
             <div class="row" style="padding-top: 2vh;" >
-                <div class="col-lg-7 col-lg-offset-2"><div id="successText" class="h3 text-bold text-success"></div></div>
+                <div class="col-lg-7 col-lg-offset-2"><h4><span class="label label-default" style="margin-top: 0px; visibility: hidden" id="lbl_pin_verify">Waiting for Pin Verification</span></h4></div>
                 <div class="col-lg-2 "><button id = 'btn_proceed' class="btn btn-danger right" onclick="proceed()">PROCEED</button></div>
             </div>
 
@@ -413,6 +413,7 @@
         }
         function disableProceedButton(callback){
             var btn = document.getElementById('btn_proceed');
+            document.getElementById("lbl_pin_verify").style.visibility = "visible";
             btn.disabled = true;
 
             if(callback){
@@ -421,6 +422,7 @@
         }
         function enableProceedButton(callback){
             clearInterval(periodicFunc);
+            document.getElementById("lbl_pin_verify").style.visibility = "hidden";
             var btn = document.getElementById('btn_proceed');
             btn.disabled = false;
             if(callback){
