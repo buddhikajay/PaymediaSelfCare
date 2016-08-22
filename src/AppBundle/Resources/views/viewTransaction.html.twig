@@ -296,7 +296,7 @@
                         window.location.href = '/transaction/scanner';
                     });
         }
-        {#{% if Transaction.type = 'Cash Withdraw' %}#}
+        {% if Transaction.type = 'Cash Withdraw' %}
 
         window.onload = function(){
             console.log('Running document ready');
@@ -358,6 +358,6 @@
             }
         }
 
-        {#{% endif %}#}
+        {% endif %}
     </script>
 {% endblock %}

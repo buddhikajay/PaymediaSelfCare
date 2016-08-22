@@ -159,7 +159,7 @@ class User
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Account")
      * @ORM\JoinTable(name="users_ownAccounts",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="account_id", referencedColumnName="id", unique=true)}
      *      )
      */
