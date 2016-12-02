@@ -7,6 +7,7 @@ use AppBundle\Entity\Transaction;
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -100,16 +101,37 @@ class TransactionController extends Controller
     public function createTransaction(Request $request){
         $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
-        $content = $request->getContent();
-//        $logger->debug("Request JSON");
-        $logger->debug($content);
-        $decodedContent = json_decode($content);
-        $logger->debug($decodedContent->type);
+        $logger = $this->get('logger');
+        $request =  $this->container->get('request_stack')->getCurrentRequest();
+        $logger->debug($request);
+        $username = $request->request->get('user');
+        $requestData =$request->request->get('data');
+        $data = json_decode($requestData, true);
 
-        $data = $decodedContent->data;
+        $type = $data['type'];
+        $amount = $data['amount'];
+        $accountNo = $data['account_no'];
+
+        if( strcmp ($type,'Cash Withdraw')==0){
+
+            $accountName = "null";
+
+            $amountDescription=null;
+            $sourceOfFunds = null;
+
+        }
+        else{
+            $accountName = $data['account_name'];
+
+            $amountDescription = $data['amount_description'];
+            $sourceOfFunds = $data['source_of_funds'];
+
+        }
+
+
         $account = new Account();
-        $account->setAccountNumber($data->account_no);
-        $account->setAccountHolderName($data->account_name);
+        $account->setAccountNumber($accountNo);
+        $account->setAccountHolderName($accountName);
 
         $em->persist($account);
 
@@ -118,10 +140,10 @@ class TransactionController extends Controller
 //        $transaction->setReferenceNumber(1);
         $transaction->setAccount($account);
         $transaction->setBranch("Bambalapitiya");
-        $transaction->setAmount((float)$data->amount);
-        $transaction->setAmountDescription($data->amount_description);
-        $transaction->setSourceOfFunds($data->source_of_funds);
-        $transaction->setType($data->type);
+        $transaction->setAmount((float)$amount);
+        $transaction->setAmountDescription($amountDescription);
+        $transaction->setSourceOfFunds($sourceOfFunds);
+        $transaction->setType($type);
         $transaction->setStatus("Pending");
 
         $em->persist($transaction);
@@ -137,7 +159,12 @@ class TransactionController extends Controller
 //            // handle exception
 //        }
 
-        return new Response(json_encode(array('status'=>200, 'refNo'=>$transaction->getReferenceNumber())));
+        $response = array(
+            'success' => true,
+            'ref_no' => $transaction->getReferenceNumber()
+        );
+        return new JsonResponse($response);
+//        return new Response(json_encode(array('status'=>200, 'refNo'=>$transaction->getReferenceNumber())));
     }
 
 }
