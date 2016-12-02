@@ -74,3 +74,7 @@ easy_admin:
         - AppBundle\Entity\User
         - AppBundle\Entity\Account
         - AppBundle\Entity\Transaction
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: AppBundle\Entity\User

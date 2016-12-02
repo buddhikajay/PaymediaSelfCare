@@ -107,28 +107,8 @@ class User extends BaseUser
      * @ORM\Column(name="deviceId", type="string", length=25)
      */
     private $deviceId;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="enabled", type="boolean")
-     */
-    private $enabled;
 
-    /**
-     * @return string
-     */
-    public function getEnabled()
-    {
-        return $this->enabled;
-    }
 
-    /**
-     * @param string $enabled
-     */
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
-    }
     /**
      * @return string
      */
