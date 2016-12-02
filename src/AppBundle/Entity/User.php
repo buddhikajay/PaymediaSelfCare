@@ -47,7 +47,10 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+        $this->ownAccounts = new ArrayCollection();
+        $this->thirdPartyAccounts = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
+        $this->enabled=false;
     }
 
     /**
@@ -178,13 +181,6 @@ class User extends BaseUser
      */
     private $transactions;
 
-    public function __construct()
-    {
-        $this->ownAccounts = new ArrayCollection();
-        $this->thirdPartyAccounts = new ArrayCollection();
-        $this->transactions = new ArrayCollection();
-        $this->enabled=false;
-    }
 
 
     /**
