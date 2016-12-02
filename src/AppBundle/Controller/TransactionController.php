@@ -93,4 +93,50 @@ class TransactionController extends Controller
         $em->flush();
         return new Response(json_encode(array("code"=>200)));
     }
+
+    /**
+     * @Route("/transaction/new", name="create_new_transaction")
+     */
+    public function createTransaction(Request $request){
+        $logger = $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
+        $content = $request->getContent();
+//        $logger->debug("Request JSON");
+        $logger->debug($content);
+        $decodedContent = json_decode($content);
+        $logger->debug($decodedContent->type);
+
+        $account = new Account();
+        $account->setAccountNumber($decodedContent->account_no);
+        $account->setAccountHolderName($decodedContent->account_name);
+
+        $em->persist($account);
+
+        $transaction = new Transaction();
+//        TODO auto generate | unique
+//        $transaction->setReferenceNumber(1);
+        $transaction->setAccount($account);
+        $transaction->setBranch("Bambalapitiya");
+        $transaction->setAmount((float)$decodedContent->amount);
+        $transaction->setAmountDescription($decodedContent->amount_description);
+        $transaction->setSourceOfFunds($decodedContent->source_of_funds);
+        $transaction->setType($decodedContent->type);
+        $transaction->setStatus("Pending");
+
+        $em->persist($transaction);
+
+        $em->flush();
+
+//        TODO this try catch can be used to avoid duplicates for the unique values
+//
+//        try {
+//            $em->persist($data);
+//            $em->flush();
+//        } catch(\PDOException $e) {
+//            // handle exception
+//        }
+
+        return new Response(json_encode(array('status'=>200, 'refNo'=>$transaction->getReferenceNumber())));
+    }
+
 }
