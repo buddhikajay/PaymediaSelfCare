@@ -106,9 +106,10 @@ class TransactionController extends Controller
         $decodedContent = json_decode($content);
         $logger->debug($decodedContent->type);
 
+        $data = $decodedContent->data;
         $account = new Account();
-        $account->setAccountNumber($decodedContent->account_no);
-        $account->setAccountHolderName($decodedContent->account_name);
+        $account->setAccountNumber($data->account_no);
+        $account->setAccountHolderName($data->account_name);
 
         $em->persist($account);
 
@@ -117,10 +118,10 @@ class TransactionController extends Controller
 //        $transaction->setReferenceNumber(1);
         $transaction->setAccount($account);
         $transaction->setBranch("Bambalapitiya");
-        $transaction->setAmount((float)$decodedContent->amount);
-        $transaction->setAmountDescription($decodedContent->amount_description);
-        $transaction->setSourceOfFunds($decodedContent->source_of_funds);
-        $transaction->setType($decodedContent->type);
+        $transaction->setAmount((float)$data->amount);
+        $transaction->setAmountDescription($data->amount_description);
+        $transaction->setSourceOfFunds($data->source_of_funds);
+        $transaction->setType($data->type);
         $transaction->setStatus("Pending");
 
         $em->persist($transaction);
