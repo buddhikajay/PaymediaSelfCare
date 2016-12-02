@@ -56,7 +56,7 @@ class UserController extends Controller
             }
             $userId= uniqid();
             $user->setName($accounts[0]->getAccountHolderName());
-           $user->setNic($accounts[0]->getNic());
+            $user->setNic($accounts[0]->getNic());
             $user->setUserId($userId);
             $user->setDeviceId($IMEI);
             $user->setPhoneNumber($phoneNumber);
@@ -80,5 +80,35 @@ class UserController extends Controller
      */
     public function verifyConfirmationCode(Request $request){
         
+    }
+
+    /**
+     * @Route(path="/registrationService", name="registration_service")
+     */
+    public function registrationServiceAction(Request $request){
+        $logger = $this->get('logger');
+        $content = $request->getContent();
+        $logger->debug($content);
+        $decodedContent = json_decode($content, true);//convert to array
+        $logger->debug($decodedContent['accountNumber'].' '.$decodedContent['phoneNumber'].' '.$decodedContent['imei']);
+
+        $em = $this->getDoctrine()->getManager();
+        $manager = $this->container->get('fos_user.user_manager');
+        $user = $manager->createUser();
+        $user
+            ->setUsername($decodedContent['nic'])
+            ->setEmail('paymedia@sampath.lk')
+            ->setPlainPassword($decodedContent['password'])
+
+            ->setNic($decodedContent['nic'])
+            ->setUserId($decodedContent['nic'])
+            ->setDeviceId($decodedContent['imei'])
+            ->setPhoneNumber($decodedContent['phoneNumber'])
+
+            ->setEnabled(false);
+        $em->persist($user);
+        $em->flush();
+
+        return new Response(json_encode(array('data'=>true)));
     }
 }
