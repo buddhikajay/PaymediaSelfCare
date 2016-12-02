@@ -75,7 +75,6 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->ownAccounts = new ArrayCollection();
-        $this->thirdPartyAccounts = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->enabled=false;
     }
@@ -112,21 +111,6 @@ class User extends BaseUser
         $this->name = $name;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getThirdPartyAccounts()
-    {
-        return $this->thirdPartyAccounts;
-    }
-
-    /**
-     * @param ArrayCollection $thirdPartyAccounts
-     */
-    public function setThirdPartyAccounts($thirdPartyAccounts)
-    {
-        $this->thirdPartyAccounts = $thirdPartyAccounts;
-    }
 
     /**
      * @return string
