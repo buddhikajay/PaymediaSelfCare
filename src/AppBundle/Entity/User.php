@@ -44,6 +44,33 @@ class User extends BaseUser
      */
     private $nic;
 
+    private $phoneNumber;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="deviceId", type="string", length=25)
+     */
+    private $deviceId;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Account")
+     * @ORM\JoinTable(name="users_ownAccounts",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="account_id", referencedColumnName="id", unique=true)}
+     *      )
+     */
+    private $ownAccounts;
+
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Transaction")
+     * @ORM\JoinTable(name="users_transactions",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="transaction_id", referencedColumnName="id", unique=true)}
+     *      )
+     */
+    private $transactions;
+
     public function __construct()
     {
         parent::__construct();
@@ -100,14 +127,6 @@ class User extends BaseUser
     {
         $this->thirdPartyAccounts = $thirdPartyAccounts;
     }
-    private $phoneNumber;
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="deviceId", type="string", length=25)
-     */
-    private $deviceId;
-
 
     /**
      * @return string
@@ -140,27 +159,6 @@ class User extends BaseUser
     {
         $this->phoneNumber = $phoneNumber;
     }
-
-
-    /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Account")
-     * @ORM\JoinTable(name="users_ownAccounts",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="account_id", referencedColumnName="id", unique=true)}
-     *      )
-     */
-    private $ownAccounts;
-
-
-    /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Transaction")
-     * @ORM\JoinTable(name="users_transactions",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="transaction_id", referencedColumnName="id", unique=true)}
-     *      )
-     */
-    private $transactions;
-
 
 
     /**
