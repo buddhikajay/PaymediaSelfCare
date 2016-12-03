@@ -95,6 +95,28 @@ class Transaction
      */
     private $pinRequested = false;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="updated", type="boolean", nullable=true)
+     */
+    private $updated = false;
+
+    /**
+     * @return boolean
+     */
+    public function isUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @param boolean $updated
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+    }
 
     /**
      * @var int
@@ -416,5 +438,9 @@ class Transaction
     public function getInputPin()
     {
         return $this->inputPin;
+    }
+
+    public function __toString(){
+        return $this->referenceNumber;
     }
 }

@@ -59,9 +59,11 @@ class TransactionController extends Controller
             $amountDescription = $transaction->getAmountDescription();
             $amountDescriptionArray = json_decode($amountDescription, true);
            // $logger->debug("Cheque Data array: ".$amountDescriptionArray);
-            foreach($amountDescriptionArray as $cheque){
-                //$chequeData = json_decode($cheque);
-                $logger->debug("Cheque Data: ".$cheque['Bank']);
+            if(!is_null($amountDescriptionArray)) {
+                foreach ($amountDescriptionArray as $cheque) {
+                    //$chequeData = json_decode($cheque);
+                    $logger->debug("Cheque Data: " . $cheque['Bank']);
+                }
             }
         }
 
@@ -88,13 +90,14 @@ class TransactionController extends Controller
         $branch =$decodedContent->branch;
         $transaction = $em->getRepository('AppBundle:Transaction')->findOneByReferenceNumber($refNo);
         $transaction->setStatus(1);
+        $transaction->setUpdated(true);
         $transaction->setBranch($branch);
         $transaction->setCompletedAt(new \DateTime('now'));
 //            $em->persist($transaction);
         $em->flush();
         return new Response(json_encode(array("code"=>200)));
     }
-
+//create transaction action for new app
     /**
      * @Route("/transaction/new", name="create_new_transaction")
      */
@@ -103,7 +106,11 @@ class TransactionController extends Controller
         $em = $this->getDoctrine()->getManager();
         $logger = $this->get('logger');
         $request =  $this->container->get('request_stack')->getCurrentRequest();
+
+        $userRepository = $em->getRepository('AppBundle:User');
+        $accountRepository = $em->getRepository('AppBundle:Account');
         $logger->debug($request);
+
         $username = $request->request->get('user');
         $requestData =$request->request->get('data');
         $data = json_decode($requestData, true);
@@ -112,26 +119,33 @@ class TransactionController extends Controller
         $amount = $data['amount'];
         $accountNo = $data['account_no'];
 
-        if( strcmp ($type,'Cash Withdraw')==0){
+        $user = $userRepository->findOneByNic($username);
+        $account  = $accountRepository->findOneByAccountNumber($accountNo);
 
-            $accountName = "null";
+        if(!is_null($account)){
+            $accountName = $account->getAccountHolderName();
+        }
+
+        else{
+            $accountName = $data['account_name'];
+            $account = new Account();
+            $account->setAccountNumber($accountNo);
+            $account->setAccountHolderName($accountName);
+
+        }
+
+        if( strcmp ($type,'Cash Withdraw')==0){
 
             $amountDescription=null;
             $sourceOfFunds = null;
 
         }
         else{
-            $accountName = $data['account_name'];
 
             $amountDescription = $data['amount_description'];
             $sourceOfFunds = $data['source_of_funds'];
-
         }
 
-
-        $account = new Account();
-        $account->setAccountNumber($accountNo);
-        $account->setAccountHolderName($accountName);
 
         $em->persist($account);
 
@@ -146,6 +160,9 @@ class TransactionController extends Controller
         $transaction->setType($type);
         $transaction->setStatus("Pending");
 
+        $user->addTransaction($transaction);
+
+        $em->persist($user);
         $em->persist($transaction);
 
         $em->flush();
@@ -165,6 +182,98 @@ class TransactionController extends Controller
         );
         return new JsonResponse($response);
 //        return new Response(json_encode(array('status'=>200, 'refNo'=>$transaction->getReferenceNumber())));
+    }
+
+//    get updates action for new app
+    /**
+     * @Route("/transaction/updates", name="transaction_updates")
+     */
+    public function getUpdates(){
+        $logger = $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Transaction');
+        $userRepository = $em->getRepository('AppBundle:User');
+
+        $updates = array();
+
+        $request =  $this->container->get('request_stack')->getCurrentRequest();
+        $logger->debug($request);
+        $username = $request->request->get('user');
+//        $requestData =$request->request->get('data');
+//        $data = json_decode($requestData, true);
+
+
+        $user = $userRepository->findOneByNic($username);
+        $transactions = $user->getTransactions();
+
+        foreach($transactions as $transaction){
+            if($transaction->isPinRequested()){
+                $transaction->setPinRequested(false);
+                $em->persist($transaction);
+                $em->flush();
+                $response = array(
+                    'response' => 'pin_request',
+                    'ref_no' => $transaction->getReferenceNumber(),
+
+                );
+                return new JsonResponse($response);
+            }
+            if($transaction->isUpdated()){
+                $transaction->setUpdated(false);
+                $em->persist($transaction);
+                $em->flush();
+                $response = array(
+                    'response' => 'updated',
+                    'ref_no' => $transaction->getReferenceNumber(),
+                    'branch' => $transaction->getBranch(),
+                    'completed_at' =>$transaction->getCompletedAt()->format('U')
+                );
+                return new JsonResponse($response);
+            }
+        }
+        $response = array(
+            'response' => 'no_change'
+        );
+        return new JsonResponse($response);
+//        For prototype, only one transaction can be handled at a given time
+//        $pinRequestedTransaction= $repository->createQueryBuilder('transaction')
+//            ->where('transaction.pinRequested = 1')
+//            ->getQuery()
+//            ->getResult();
+//        if($pinRequestedTransaction){
+//            foreach($pinRequestedTransaction as $transaction){
+//                $transaction->setpinRequested(false);
+//                $em->flush();
+//                $tempUpdate = array(
+//                    'refNo'=>'pin',
+//                    'branch'=>null,
+//                    'dateTime'=> null);
+//                array_push($updates, $tempUpdate);
+//            }
+//            return new Response(json_encode($updates));
+//        }
+//
+//        $query = $repository->createQueryBuilder('t')
+//            ->where('t.status = :status')
+//            ->setParameter('status', '1')
+//            ->getQuery();
+//        $updatedTransactions = $query->getResult();
+//
+//        foreach($updatedTransactions as $transaction){
+//            $dateTime = new \DateTime();
+////            $logger->debug($dateTime);
+//            $tempUpdate = array(
+//                'refNo'=>$transaction->getReferenceNumber(),
+//                'branch'=>$transaction->getBranch(),
+//                'dateTime'=>strval($dateTime->getTimestamp()));
+//            array_push($updates, $tempUpdate);
+//            $transaction->setStatus(2);
+//            $em->flush();
+//        }
+//
+////        $dateTime = new \DateTime();
+////        $updates = array('refNo'=>'574aeda7a8cd2', 'branch'=>'Dubai', 'dateTime'=>$dateTime->getTimestamp());
+//        return new Response(json_encode($updates));
     }
 
 }

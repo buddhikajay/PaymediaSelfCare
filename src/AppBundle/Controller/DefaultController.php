@@ -202,8 +202,10 @@ class DefaultController extends Controller
      */
     public function pinRequestAction(){
         $em = $this->getDoctrine()->getManager();
+        $request =  $this->container->get('request_stack')->getCurrentRequest();
+        $refNo =$request->request->get('refNo');
         $repository = $em->getRepository('AppBundle:Transaction');
-        $transaction = $repository->findOneBy(array('id' => 1));
+        $transaction = $repository->findOneByReferenceNumber($refNo);
         $transaction->setInputPin(0);
         $transaction->setpinRequested(true);
         $em->flush();
@@ -216,8 +218,10 @@ class DefaultController extends Controller
      */
     public function checkPinAction(){
         $em = $this->getDoctrine()->getManager();
+        $request =  $this->container->get('request_stack')->getCurrentRequest();
+        $refNo =$request->request->get('refNo');
         $repository = $em->getRepository('AppBundle:Transaction');
-        $transaction = $repository->findOneBy(array('id' => 1));
+        $transaction = $repository->findOneByReferenceNumber($refNo);
         if($transaction->getInputPin()){
             return new Response(json_encode(array('success'=>true)));
         }
@@ -239,5 +243,25 @@ class DefaultController extends Controller
         return new Response(json_encode('success'));
     }
 
+    //pin submit for new app
+    /**
+     * @Route(path="/transaction/pinSubmit", name="submit_pin")
+     */
+    public function pinSubmitAction(){
+        $em = $this->getDoctrine()->getManager();
+        $request =  $this->container->get('request_stack')->getCurrentRequest();
+
+        $username = $request->request->get('user');
+        $requestData =$request->request->get('data');
+        $data = json_decode($requestData, true);
+
+        $refNo = $data['ref_no'];
+        $repository = $em->getRepository('AppBundle:Transaction');
+        $transaction = $repository->findOneByReferenceNumber($refNo);
+        $transaction->setInputPin(1234);
+        $em->flush();
+
+        return new Response(json_encode('success'));
+    }
    
 }
