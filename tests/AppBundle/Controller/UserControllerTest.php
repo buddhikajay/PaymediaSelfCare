@@ -23,7 +23,7 @@ class UserControllerTest extends WebTestCase
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json', 'HTTP_X-Requested-With' => 'XMLHttpRequest'),
-            '{"nic":"00000000", "accountNumber": "phoneNumber":"070000000", "imei":"1234"}'
+            '{"nic":"00000000", "accountNumber": "0000000", "phoneNumber":"070000000", "imei":"1234"}'
         );
 
 

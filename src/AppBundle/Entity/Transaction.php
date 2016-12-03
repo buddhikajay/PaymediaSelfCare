@@ -108,6 +108,10 @@ class Transaction
         $this->referenceNumber = substr(rand(),0,6);  // creates a 6 digit token
     }
 
+    public function __toString(){
+        return strval($this->id);
+    }
+
 
     /**
      * Get id

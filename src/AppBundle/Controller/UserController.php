@@ -90,22 +90,22 @@ class UserController extends Controller
         $content = $request->getContent();
         $logger->debug($content);
         $decodedContent = json_decode($content, true);//convert to array
-        $logger->debug($decodedContent['accountNumber'].' '.$decodedContent['phoneNumber'].' '.$decodedContent['imei']);
+        $logger->debug($decodedContent['nic'].' '.$decodedContent['accountNumber'].' '.$decodedContent['phoneNumber'].' '.$decodedContent['imei']);
 
         $em = $this->getDoctrine()->getManager();
         $manager = $this->container->get('fos_user.user_manager');
-        $user = $manager->createUser();
-        $user
-            ->setUsername($decodedContent['nic'])
+        $user = new User();
+        $user->setUsername($decodedContent['nic'])
             ->setEmail('paymedia@sampath.lk')
-            ->setPlainPassword($decodedContent['password'])
+            ->setPlainPassword('password');
+        $user->setNic($decodedContent['nic']);
+        $user->setUserId($decodedContent['nic']);
+        $user->setDeviceId($decodedContent['imei']);
+        $user->setPhoneNumber($decodedContent['phoneNumber']);
+        //to avoid integrity constraint violations
+        $user->setName($decodedContent['nic']);
 
-            ->setNic($decodedContent['nic'])
-            ->setUserId($decodedContent['nic'])
-            ->setDeviceId($decodedContent['imei'])
-            ->setPhoneNumber($decodedContent['phoneNumber'])
-
-            ->setEnabled(false);
+        $user->setEnabled(false);
         $em->persist($user);
         $em->flush();
 
