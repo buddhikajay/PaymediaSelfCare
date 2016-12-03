@@ -2,6 +2,7 @@
 
 namespace Tests\AppBundle\Controller;
 
+use AppBundle\Controller\UserController;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UserControllerTest extends WebTestCase
@@ -28,6 +29,11 @@ class UserControllerTest extends WebTestCase
 
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        //delete created user
+        $userManager = $client->getContainer()->get('fos_user.user_manager');
+        $user = $userManager->findUserByUsername("00000000");
+        $userManager->deleteUser($user);
 
     }
 }
