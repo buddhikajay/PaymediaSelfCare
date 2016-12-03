@@ -15,20 +15,6 @@ class UserControllerTest extends WebTestCase
     //$content = null,
     //$changeHistory = true
     //)
-    public function testRegistration()
-    {
-        $client = static::createClient();
-
-        $crawler = $client->request('GET',
-            '/user/requestRegistration',
-            array(),
-            array(),
-            array('CONTENT_TYPE' => 'application/json'),
-            '{"username:"username", "phoneNumber":"0700000000","nic":"910000000v","email":"a@b.com"}'
-        );
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-    }
 
     public function testRegistrationServiceAction(){
         $client = static::createClient();
