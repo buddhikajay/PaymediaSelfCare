@@ -7,6 +7,7 @@ use AppBundle\Entity\Transaction;
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -93,4 +94,77 @@ class TransactionController extends Controller
         $em->flush();
         return new Response(json_encode(array("code"=>200)));
     }
+
+    /**
+     * @Route("/transaction/new", name="create_new_transaction")
+     */
+    public function createTransaction(Request $request){
+        $logger = $this->get('logger');
+        $em = $this->getDoctrine()->getManager();
+        $logger = $this->get('logger');
+        $request =  $this->container->get('request_stack')->getCurrentRequest();
+        $logger->debug($request);
+        $username = $request->request->get('user');
+        $requestData =$request->request->get('data');
+        $data = json_decode($requestData, true);
+
+        $type = $data['type'];
+        $amount = $data['amount'];
+        $accountNo = $data['account_no'];
+
+        if( strcmp ($type,'Cash Withdraw')==0){
+
+            $accountName = "null";
+
+            $amountDescription=null;
+            $sourceOfFunds = null;
+
+        }
+        else{
+            $accountName = $data['account_name'];
+
+            $amountDescription = $data['amount_description'];
+            $sourceOfFunds = $data['source_of_funds'];
+
+        }
+
+
+        $account = new Account();
+        $account->setAccountNumber($accountNo);
+        $account->setAccountHolderName($accountName);
+
+        $em->persist($account);
+
+        $transaction = new Transaction();
+//        TODO auto generate | unique
+//        $transaction->setReferenceNumber(1);
+        $transaction->setAccount($account);
+        $transaction->setBranch("Bambalapitiya");
+        $transaction->setAmount((float)$amount);
+        $transaction->setAmountDescription($amountDescription);
+        $transaction->setSourceOfFunds($sourceOfFunds);
+        $transaction->setType($type);
+        $transaction->setStatus("Pending");
+
+        $em->persist($transaction);
+
+        $em->flush();
+
+//        TODO this try catch can be used to avoid duplicates for the unique values
+//
+//        try {
+//            $em->persist($data);
+//            $em->flush();
+//        } catch(\PDOException $e) {
+//            // handle exception
+//        }
+
+        $response = array(
+            'success' => true,
+            'ref_no' => $transaction->getReferenceNumber()
+        );
+        return new JsonResponse($response);
+//        return new Response(json_encode(array('status'=>200, 'refNo'=>$transaction->getReferenceNumber())));
+    }
+
 }
