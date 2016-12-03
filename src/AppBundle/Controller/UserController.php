@@ -107,9 +107,14 @@ class UserController extends Controller
         $user->setName($decodedContent['nic']);
 
         $user->setEnabled(false);
-        $em->persist($user);
-        $em->flush();
+        try{
+            $em->persist($user);
+            $em->flush();
+            $response = array("status"=>"success", 'data'=>array("userId"=>$user->getUserId()));
+        }catch (Exception $e){
+            $response = array("status"=>"fail", 'data'=>null);
+        }
 
-        return new Response(json_encode(array('data'=>true)));
+        return new Response(json_encode($response));
     }
 }
