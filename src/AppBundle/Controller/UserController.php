@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Account;
 use AppBundle\Entity\Transaction;
 use AppBundle\Entity\User;
+use phpDocumentor\Reflection\Types\Array_;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -121,7 +122,16 @@ class UserController extends Controller
             $em->persist($user);
             $em->persist($account);
             $em->flush();
-            $response = array("status"=>"success", 'data'=>array("userId"=>$user->getUserId()));
+            $userAccount1 = array("accountNumber"=>$decodedContent['accountNumber'],
+                "accountHolderName"=>"Asela Priyadarshana",
+                "accountType"=>"Savings");
+            $userAccount2 = array("accountNumber"=> "09909909",
+                "accountHolderName"=>"Asela Priyadarshana",
+                "accountType"=>"Savings");
+            $userAccounts = array();
+            array_push($userAccounts, $userAccount1);
+            array_push($userAccounts, $userAccount2);
+            $response = array("status"=>"success", 'data'=>array("userId"=>$user->getUserId(), "accounts"=>$userAccounts));
         }catch (Exception $e){
             $response = array("status"=>"fail", 'data'=>null);
         }
