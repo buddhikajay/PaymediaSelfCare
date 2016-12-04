@@ -96,11 +96,15 @@ class UserController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $manager = $this->container->get('fos_user.user_manager');
+
         $user = new User();
-        $user->setUsername($decodedContent['nic'])
-            ->setEmail($decodedContent['nic'].'@slipless.lk')// create unique mock email
-            ->setPlainPassword('password');
         $user->setNic($decodedContent['nic']);
+
+        $userId = md5(uniqid($user->getNic(), true));
+        $user->setUsername($userId)
+            ->setEmail($userId.'@slipless.lk')// create unique mock email
+            ->setPlainPassword('password');
+
 
         $user->setDeviceId($decodedContent['imei']);
         $user->setPhoneNumber($decodedContent['phoneNumber']);
@@ -116,7 +120,7 @@ class UserController extends Controller
         $account->setPhoneNumber($decodedContent['phoneNumber']);
 
         $user->setEnabled(false);
-        $userId = md5(uniqid($user->getNic(), true));
+
         $user->setUserId($userId);
         try{
             $em->persist($user);
