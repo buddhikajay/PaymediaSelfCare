@@ -140,6 +140,10 @@ class TransactionController extends Controller
             $sourceOfFunds = null;
 
         }
+        else if(strcmp ($type,'Fund Transfer')==0){
+            $amountDescription=null;
+            $sourceOfFunds = null;
+        }
         else{
 
             $amountDescription = $data['amount_description'];
@@ -170,7 +174,7 @@ class TransactionController extends Controller
 
         if( strcmp ($type,'Fund Transfer')==0){
 
-            $userId = $data['userId'];
+            $userId = $data['receiver_Id'];
             $user = $userRepository->findOneByUserId($userId);
             $transaction = new Transaction();
 //        TODO auto generate | unique
@@ -183,6 +187,7 @@ class TransactionController extends Controller
             $transaction->setType($type);
             $transaction->setStatus("Completed");
             $transaction->setUpdated(true);
+            $transaction->setCompletedAt(new \DateTime());
             $user->addTransaction($transaction);
 
             $em->persist($user);
@@ -239,12 +244,22 @@ class TransactionController extends Controller
                 $transaction->setUpdated(false);
                 $em->persist($transaction);
                 $em->flush();
-                $response = array(
-                    'response' => 'updated',
-                    'ref_no' => $transaction->getReferenceNumber(),
-                    'branch' => $transaction->getBranch(),
-                    'completed_at' =>$transaction->getCompletedAt()->format('U')
-                );
+                if( strcmp ($transaction->getType(),'Fund Transfer')==0){
+                    $response = array(
+                        'response' => 'fund_transfer',
+                        'amount' => $transaction->getAmount(),
+                        'from' => $transaction->getAccount()->getAccountHolderName(),
+                        'completed_at' => $transaction->getCompletedAt()->format('U')
+                    );
+                }
+                else {
+                    $response = array(
+                        'response' => 'updated',
+                        'ref_no' => $transaction->getReferenceNumber(),
+                        'branch' => $transaction->getBranch(),
+                        'completed_at' => $transaction->getCompletedAt()->format('U')
+                    );
+                }
                 return new JsonResponse($response);
             }
         }
