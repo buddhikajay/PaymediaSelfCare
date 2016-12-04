@@ -177,7 +177,7 @@ class TransactionController extends Controller
 //        }
 
         $response = array(
-            'success' => true,
+            'response' => 'create_successful',
             'ref_no' => $transaction->getReferenceNumber()
         );
         return new JsonResponse($response);

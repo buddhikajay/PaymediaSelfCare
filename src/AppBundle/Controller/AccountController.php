@@ -7,6 +7,7 @@ use AppBundle\Entity\Transaction;
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -45,6 +46,50 @@ class AccountController extends Controller
         }
         else{
             return new Response(json_encode(array("code"=>400,"name"=>null)));
+        }
+    }
+
+    /**
+     * @Route("/account/findName", name="account_find_name")
+     */
+    public function findAccountHolderName(Request $request)
+    {
+        $logger = $this->get('logger');
+        $request =  $this->container->get('request_stack')->getCurrentRequest();
+
+        $em = $this->getDoctrine()->getManager();
+        $accountRepository = $em->getRepository('AppBundle:Account');
+        $logger->debug($request);
+
+        $username = $request->request->get('user');
+        $requestData =$request->request->get('data');
+        $data = json_decode($requestData, true);
+
+
+        $accountNumber =$data['account_no'];
+
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle:Account');
+        $query = $repository->createQueryBuilder('t')
+            ->where('t.accountNumber = :accountNumber')
+            ->setParameter('accountNumber', $accountNumber)
+            ->getQuery();
+        $accounts = $query->getResult();
+
+        if($accounts){
+
+            $response = array(
+                'response' => 'account_name_valid',
+                'account_name' =>$accounts[0]->getAccountHolderName()
+            );
+            return new JsonResponse($response);
+        }
+        else{
+            $response = array(
+                'response' => 'account_name_invalid',
+
+            );
+            return new JsonResponse($response);
         }
     }
 }
