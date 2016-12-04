@@ -131,7 +131,7 @@ class Transaction
     }
 
     public function __toString(){
-        return strval($this->id);
+        return $this->referenceNumber;
     }
 
 

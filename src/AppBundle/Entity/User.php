@@ -76,6 +76,7 @@ class User extends BaseUser
         parent::__construct();
         $this->ownAccounts = new ArrayCollection();
         $this->transactions = new ArrayCollection();
+
         $this->enabled=false;
     }
 

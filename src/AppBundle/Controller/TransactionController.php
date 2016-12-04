@@ -101,7 +101,7 @@ class TransactionController extends Controller
     /**
      * @Route("/transaction/new", name="create_new_transaction")
      */
-    public function createTransaction(Request $request){
+    public function createTransactionAction(Request $request){
         $logger = $this->get('logger');
         $em = $this->getDoctrine()->getManager();
         $logger = $this->get('logger');
@@ -167,22 +167,39 @@ class TransactionController extends Controller
 
         $em->flush();
 
-//        TODO this try catch can be used to avoid duplicates for the unique values
-//
-//        try {
-//            $em->persist($data);
-//            $em->flush();
-//        } catch(\PDOException $e) {
-//            // handle exception
-//        }
+
+        if( strcmp ($type,'Fund Transfer')==0){
+
+            $userId = $data['userId'];
+            $user = $userRepository->findOneByUserId($userId);
+            $transaction = new Transaction();
+//        TODO auto generate | unique
+//        $transaction->setReferenceNumber(1);
+            $transaction->setAccount($account);
+            $transaction->setBranch("Bambalapitiya");
+            $transaction->setAmount((float)$amount);
+            $transaction->setAmountDescription($amountDescription);
+            $transaction->setSourceOfFunds($sourceOfFunds);
+            $transaction->setType($type);
+            $transaction->setStatus("Completed");
+            $transaction->setUpdated(true);
+            $user->addTransaction($transaction);
+
+            $em->persist($user);
+            $em->persist($transaction);
+
+            $em->flush();
+        }
+
 
         $response = array(
-            'response' => 'create_successful',
-            'ref_no' => $transaction->getReferenceNumber()
+        'response' => 'create_successful',
+        'ref_no' => $transaction->getReferenceNumber()
         );
         return new JsonResponse($response);
 //        return new Response(json_encode(array('status'=>200, 'refNo'=>$transaction->getReferenceNumber())));
     }
+
 
 //    get updates action for new app
     /**
