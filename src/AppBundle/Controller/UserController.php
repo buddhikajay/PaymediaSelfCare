@@ -106,9 +106,18 @@ class UserController extends Controller
         //to avoid integrity constraint violations
         $user->setName($decodedContent['nic']);
 
+        //create the default account
+        $account = new Account();
+        $account->setAccountNumber($decodedContent['accountNumber']);
+        $account->setAccountHolderName($decodedContent['nic']);
+        $account->setNic($decodedContent['nic']);
+        $account->setAccountType("savings");
+        $account->setPhoneNumber($decodedContent['phoneNumber']);
+
         $user->setEnabled(false);
         try{
             $em->persist($user);
+            $em->persist($account);
             $em->flush();
             $response = array("status"=>"success", 'data'=>array("userId"=>$user->getUserId()));
         }catch (Exception $e){
