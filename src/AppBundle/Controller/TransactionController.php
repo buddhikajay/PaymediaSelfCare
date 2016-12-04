@@ -119,7 +119,7 @@ class TransactionController extends Controller
         $amount = $data['amount'];
         $accountNo = $data['account_no'];
 
-        $user = $userRepository->findOneByNic($username);
+        $user = $userRepository->findOneByUserId($username);
         $account  = $accountRepository->findOneByAccountNumber($accountNo);
 
         if(!is_null($account)){
@@ -220,7 +220,7 @@ class TransactionController extends Controller
 //        $data = json_decode($requestData, true);
 
 
-        $user = $userRepository->findOneByNic($username);
+        $user = $userRepository->findOneByUserId($username);
         $transactions = $user->getTransactions();
 
         foreach($transactions as $transaction){
