@@ -26,21 +26,21 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="userId", type="string", length=25, unique=true)
+     * @ORM\Column(name="userId", type="string", length=25, unique=true, nullable=true))
      */
     private $userId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=25)
+     * @ORM\Column(name="name", type="string", length=25, nullable=true))
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="nic", type="string", length=25)
+     * @ORM\Column(name="nic", type="string", length=25, nullable=true))
      */
     private $nic;
 
@@ -48,7 +48,7 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="deviceId", type="string", length=25)
+     * @ORM\Column(name="deviceId", type="string", length=25, nullable=true))
      */
     private $deviceId;
 

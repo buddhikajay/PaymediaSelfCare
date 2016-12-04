@@ -51,7 +51,7 @@ class Transaction
     /**
      * @var string
      *
-     * @ORM\Column(name="amountDescription", type="string", length=500, nullable=true)
+     * @ORM\Column(name="amountDescription", type="string", length=50000, nullable=true)
      */
     private $amountDescription;
 
@@ -444,7 +444,7 @@ class Transaction
         return $this->inputPin;
     }
 
-    public function __toString(){
-        return $this->referenceNumber;
-    }
+//    public function __toString(){
+//        return $this->referenceNumber;
+//    }
 }
