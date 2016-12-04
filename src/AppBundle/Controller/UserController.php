@@ -97,7 +97,7 @@ class UserController extends Controller
         $manager = $this->container->get('fos_user.user_manager');
         $user = new User();
         $user->setUsername($decodedContent['nic'])
-            ->setEmail('paymedia@sampath.lk')
+            ->setEmail($decodedContent['nic'].'@slipless.lk')// create unique mock email
             ->setPlainPassword('password');
         $user->setNic($decodedContent['nic']);
         $user->setUserId($decodedContent['nic']);
