@@ -100,7 +100,7 @@ class UserController extends Controller
             ->setEmail($decodedContent['nic'].'@slipless.lk')// create unique mock email
             ->setPlainPassword('password');
         $user->setNic($decodedContent['nic']);
-        $user->setUserId($decodedContent['nic']);
+
         $user->setDeviceId($decodedContent['imei']);
         $user->setPhoneNumber($decodedContent['phoneNumber']);
         //to avoid integrity constraint violations
@@ -115,6 +115,8 @@ class UserController extends Controller
         $account->setPhoneNumber($decodedContent['phoneNumber']);
 
         $user->setEnabled(false);
+        $userId = md5(uniqid($user->getNic(), true));
+        $user->setUserId($userId);
         try{
             $em->persist($user);
             $em->persist($account);
