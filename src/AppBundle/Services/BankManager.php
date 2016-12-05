@@ -81,6 +81,7 @@ class BankManager
 
 //            array_push($accountsArray, $tempAccount);
             $this->em->persist($tempAccountObject);
+            array_push($accountsObjectArray, $tempAccountObject);
         }
 
         //save account

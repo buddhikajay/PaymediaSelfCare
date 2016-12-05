@@ -112,19 +112,7 @@ class UserController extends Controller
         $user->setPhoneNumber($decodedContent['phoneNumber']);
         //to avoid integrity constraint violations
         $user->setName($decodedContent['nic']);
-
-        //create the default account
-//        $account = new Account();
-//        $account->setAccountNumber($decodedContent['accountNumber']);
-//        $account->setAccountHolderName($decodedContent['nic']);
-//        $account->setNic($decodedContent['nic']);
-//        $account->setAccountType("savings");
-//        $account->setPhoneNumber($decodedContent['phoneNumber']);
-
-
-
         $user->setEnabled(false);
-
         $user->setUserId($userId);
         try{
             $em->persist($user);
@@ -137,14 +125,16 @@ class UserController extends Controller
 //                "accountHolderName"=>"Asela Priyadarshana",
 //                "accountType"=>"Savings");
             $userAccounts = $bankManager->getUserAccounts($decodedContent['nic'], $decodedContent['phoneNumber'],$decodedContent['accountNumber']);
-//            foreach ($userAccounts as $userAccount){
-//                $em->persist($userAccount);
-//            }
-//            $em->flush();
+            $userAccountForJson = array();
+            foreach ($userAccounts as $userAccount){
+                $tempUserAccount = array("accountNumber"=>$userAccount->getAccountNumber(),
+                "accountHolderName"=>$userAccount->getAccountHolderName(),
+                "accountType"=>$userAccount->getAccountType());
 
+                array_push($userAccountForJson, $tempUserAccount);
+            }
 
-
-            $response = array("status"=>"success", 'data'=>array("userId"=>$user->getUserId(), "accounts"=>$userAccounts));
+            $response = array("status"=>"success", 'data'=>array("userId"=>$user->getUserId(), "accounts"=>$userAccountForJson));
         }catch (Exception $e){
             $response = array("status"=>"fail", 'data'=>null);
         }
