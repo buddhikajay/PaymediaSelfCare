@@ -9,3 +9,5 @@ services:
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
   app.bank_manager:
     class: AppBundle\Services\BankManager
+    arguments:
+            entityManager: "@doctrine.orm.entity_manager"

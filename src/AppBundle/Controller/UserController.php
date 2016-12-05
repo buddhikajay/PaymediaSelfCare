@@ -91,6 +91,8 @@ class UserController extends Controller
         $logger = $this->get('logger');
         $content = $request->getContent();
         $logger->debug($content);
+        $bankManager = $this->get('app.bank_manager');
+
         $decodedContent = json_decode($content, true);//convert to array
         $logger->debug($decodedContent['nic'].' '.$decodedContent['accountNumber'].' '.$decodedContent['phoneNumber'].' '.$decodedContent['imei']);
 
@@ -112,29 +114,36 @@ class UserController extends Controller
         $user->setName($decodedContent['nic']);
 
         //create the default account
-        $account = new Account();
-        $account->setAccountNumber($decodedContent['accountNumber']);
-        $account->setAccountHolderName($decodedContent['nic']);
-        $account->setNic($decodedContent['nic']);
-        $account->setAccountType("savings");
-        $account->setPhoneNumber($decodedContent['phoneNumber']);
+//        $account = new Account();
+//        $account->setAccountNumber($decodedContent['accountNumber']);
+//        $account->setAccountHolderName($decodedContent['nic']);
+//        $account->setNic($decodedContent['nic']);
+//        $account->setAccountType("savings");
+//        $account->setPhoneNumber($decodedContent['phoneNumber']);
+
+
 
         $user->setEnabled(false);
 
         $user->setUserId($userId);
         try{
             $em->persist($user);
-            $em->persist($account);
+//            $em->persist($account);
             $em->flush();
-            $userAccount1 = array("accountNumber"=>$decodedContent['accountNumber'],
-                "accountHolderName"=>"Asela Priyadarshana",
-                "accountType"=>"Savings");
-            $userAccount2 = array("accountNumber"=> "09909909",
-                "accountHolderName"=>"Asela Priyadarshana",
-                "accountType"=>"Savings");
-            $userAccounts = array();
-            array_push($userAccounts, $userAccount1);
-            array_push($userAccounts, $userAccount2);
+//            $userAccount1 = array("accountNumber"=>$decodedContent['accountNumber'],
+//                "accountHolderName"=>"Asela Priyadarshana",
+//                "accountType"=>"Savings");
+//            $userAccount2 = array("accountNumber"=> "09909909",
+//                "accountHolderName"=>"Asela Priyadarshana",
+//                "accountType"=>"Savings");
+            $userAccounts = $bankManager->getUserAccounts($decodedContent['nic'], $decodedContent['phoneNumber'],$decodedContent['accountNumber']);
+//            foreach ($userAccounts as $userAccount){
+//                $em->persist($userAccount);
+//            }
+//            $em->flush();
+
+
+
             $response = array("status"=>"success", 'data'=>array("userId"=>$user->getUserId(), "accounts"=>$userAccounts));
         }catch (Exception $e){
             $response = array("status"=>"fail", 'data'=>null);
