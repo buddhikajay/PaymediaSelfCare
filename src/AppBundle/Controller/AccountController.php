@@ -22,10 +22,6 @@ use Symfony\Component\Validator\Constraints\DateTime;
 class AccountController extends Controller
 {
 
-    private $initials = array("A.B.C.", "K.L.D.", "G.J.L.", "D.M.L.", "E.I.P.");
-    private $names = array("Gunadasa", "Amaraweera", "Jayaweera", "Padmanadan", "Godakanda");
-    private $accountTypes = array("Savings", "Current");
-
     /**
      * @Route("/account/getName", name="account_get_name")
      */
@@ -104,23 +100,18 @@ class AccountController extends Controller
      */
     public function createAccountService(Request $request){
         $logger = $this->get('logger');
+        $bankManager = $this->get('app.bank_manager');
         $content = $request->getContent();
+
         $logger->debug($content);
         $decodedContent = json_decode($content, true);//convert to array
         $logger->debug($decodedContent['accountNumber']);
 
-        $createdAccount = $this->validateAccount($decodedContent['accountNumber']);
+        $createdAccount = $bankManager->validateAccount($decodedContent['accountNumber']);
 
         $response = array("status"=>"success", "data"=>array("account"=>$createdAccount));
 
         return new Response(json_encode($response));
 
-    }
-
-    public function validateAccount($accountNumber){
-        $account = array("accountNumber"=>$accountNumber,
-            "accountHolderName"=>$this->initials[rand(0,5)].$this->names[rand(0,5)],
-            "accountType"=>$this->accountTypes[rand(0,1)]);
-        return $account;
     }
 }

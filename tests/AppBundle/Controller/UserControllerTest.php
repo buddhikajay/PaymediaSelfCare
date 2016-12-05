@@ -31,11 +31,11 @@ class UserControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $contentArray  = json_decode($client->getResponse()->getContent());
         $this->assertEquals("success", $contentArray->status);
-        $this->assertEquals("00000000", $contentArray->data->userId);
+//        $this->assertEquals("00000000", $contentArray->data->userId);
 
         //delete created user
         $userManager = $client->getContainer()->get('fos_user.user_manager');
-        $user = $userManager->findUserByUsername("00000000");
+        $user = $userManager->findUserByUsername($contentArray->data->userId);
         $userManager->deleteUser($user);
 
     }
