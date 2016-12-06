@@ -62,7 +62,7 @@ class BankManager
         for ($i = 0; $i<2;$i++){
 
             $randomAccountNumber = '';
-            for($j=0;$j<7;$j++){
+            for($j=0;$j<8;$j++){
                 $randomAccountNumber .= rand(0,9);
             }
             $randomAccountType = $this->accountTypes[rand(0,1)];
