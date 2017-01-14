@@ -51,7 +51,7 @@ class Transaction
     /**
      * @var string
      *
-     * @ORM\Column(name="amountDescription", type="string", length=50000, nullable=true)
+     * @ORM\Column(name="amountDescription", type="string", length=4000, nullable=true)
      */
     private $amountDescription;
 

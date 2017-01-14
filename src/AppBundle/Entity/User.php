@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="fos_user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
 class User extends BaseUser
