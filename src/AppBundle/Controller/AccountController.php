@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Account;
 use AppBundle\Entity\Transaction;
 use AppBundle\Entity\User;
+use phpDocumentor\Reflection\Types\String_;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -91,5 +92,26 @@ class AccountController extends Controller
             );
             return new JsonResponse($response);
         }
+    }
+
+    /**
+     * @param Request $request
+     * @Route(path="/service/account/create", name="create_account_service")
+     */
+    public function createAccountService(Request $request){
+        $logger = $this->get('logger');
+        $bankManager = $this->get('app.bank_manager');
+        $content = $request->getContent();
+
+        $logger->debug($content);
+        $decodedContent = json_decode($content, true);//convert to array
+        $logger->debug($decodedContent['accountNumber']);
+
+        $createdAccount = $bankManager->validateAccount($decodedContent['accountNumber']);
+
+        $response = array("status"=>"success", "data"=>array("account"=>$createdAccount));
+
+        return new Response(json_encode($response));
+
     }
 }
