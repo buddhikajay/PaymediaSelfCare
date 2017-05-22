@@ -97,6 +97,17 @@ class TransactionController extends Controller
         $em->flush();
         return new Response(json_encode(array("code"=>200)));
     }
+
+    /**
+     * @Route("/slip/deposit/cash", name="cash_deposit_slip")
+     */
+    public function cashDepositSlipAction(Request $request){
+        $response = array(
+            'response' => 'create_successful',
+            'ref_no' => '12344321'
+        );
+        return new JsonResponse($response);
+    }
 //create transaction action for new app
     /**
      * @Route("/transaction/new", name="create_new_transaction")
